@@ -1,0 +1,34 @@
+When you create a new site you get two keys:
+
+//Private key //
+
+
+Only you have it
+◦ Allows you to sign new content for
+your site.
+◦ No central registry
+It never leaves your computer.
+◦ Impossible to modify your site
+without it.
+
+
+//Public key//
+
+
+
+This is your site address
+◦ Using this anyone can verify if the
+file is created by the site owner.
+◦ Every downloaded file is verified,
+makes it safe from malicious code
+inserts or any modifications.
+
+
+MOJONET  uses the same elliptic curve
+based encryption as in your Bitcoin
+wallet.
+◦ You can accept payments directly to
+your site address.
+◦ Using the current fastest
+supercomputer, it would take around 1
+billion years to "hack" a private key.
