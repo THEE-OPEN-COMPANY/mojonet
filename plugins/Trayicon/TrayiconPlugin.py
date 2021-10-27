@@ -55,13 +55,13 @@ class ActionsPlugin(object):
             (self.titleAutorun, self.toggleAutorun),
             "--",
             (_["MojoNet Twitter"], lambda: self.opensite(
-                "https://twitter.com/HelloMojoNet")),
+                "https://twitter.com/")),
             (_["MojoNet Reddit"], lambda: self.opensite(
-                "http://www.reddit.com/r/MojoNet/")),
+                "http://www.reddit.com//")),
             (_["MojoNet Github"], lambda: self.opensite(
-                "https://github.com/HelloMojoNet/MojoNet")),
+                "https://github.com/THEE-OPEN-COMPANY/mojonet")),
             (_["Report bug/request feature"],
-             lambda: self.opensite("https://github.com/HelloMojoNet/MojoNet/issues")),
+             lambda: self.opensite("https://github.com/THEE-OPEN-COMPANY/mojonet")),
             "--",
             (_["!Open MojoNet"], lambda: self.opensite("http://%s:%s/%s" %
              (ui_ip, config.ui_port, config.homepage))),
