@@ -1,0 +1,9 @@
+Real-time updated sites
+◦ Namecoin .bit domain support
+◦ Multi-user sites
+◦ Password less, Bitcoin's BIP32-
+based authorization
+◦ Built-in SQL server with P2P data
+synchronization
+◦ Tor network support
+◦ Works in any browser/OS
