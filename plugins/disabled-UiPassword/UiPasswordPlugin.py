@@ -53,8 +53,8 @@ class UiRequestPlugin(object):
         # Restict Ui access by ip
         if config.ui_restrict and self.env['REMOTE_ADDR'] not in config.ui_restrict:
             return self.error403(details=False)
-        if path.endswith("favicon.ico"):
-            return self.actionFile("src/Ui/media/img/favicon.ico")
+        if path.endswith(" "):
+            return self.actionFile("src/Ui/media/img/")
         else:
             if config.ui_password:
                 if time.time() - self.last_cleanup > 60 * 60:  # Cleanup expired sessions every hour
