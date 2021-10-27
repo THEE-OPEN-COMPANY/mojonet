@@ -1,0 +1,19 @@
+//Requesting permission from site owner//
+
+1. Sending your auth address to site owner.
+2. The site owner creates a new file and set your auth
+address as the valid signer.
+3. The site owner publishes the new file and the changed
+permissions to visitors of the site.
+
+
+After the visitor got the permission
+granted he/she able to push the
+modifications directly to other peers
+without contacting the site owner again.
+◦ The site owner is able to remove
+misbehaving users.
+◦ The user files size can be limited to help
+avoid spamming.
+◦ Unique auth address / private key
+generated for every site. (BIP32 based)
