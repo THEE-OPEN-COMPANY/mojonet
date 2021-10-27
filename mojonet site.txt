@@ -1,0 +1,26 @@
+//WHAT HAPPENS WHEN YOU VISIT A MOJONET SITE//
+
+Gathering visitors IP addresses:
+
+Asks visitors IP addresses from the BitTorrent trackers.
+◦ Also registers you as a visitor.
+◦ Tracker-less peer exchange also supported.
+
+//Downloading site's files//
+
+
+Downloads a file named content.json, which holds all other filenames, hashes and the site owner's cryptographic signature.
+2. Verifies the downloaded content.json file using the site's
+address and the site owner's signature from the file.
+3. Downloads other files (html, css, js,...) and verifies them using
+the SHA512 hash from the content.json file.
+
+
+
+◦ The browser is notified immediately about
+the file changes using the WebSocket API.
+This allows real-time updated sites.
+◦ Multi-signature sites are also possible.
+◦ For faster and easier data access the json
+files can be automatically mapped to a
+built-in SQL database.
