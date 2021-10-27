@@ -1,0 +1,4 @@
+
+Decentralized web platform
+using Bitcoin cryptography
+and BitTorrent network.
