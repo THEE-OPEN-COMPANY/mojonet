@@ -1,0 +1,14 @@
+{
+	"MojoNet Twitter": "MojoNet Twitter",
+	"MojoNet Reddit": "MojoNet Reddit",
+	"MojoNet Github": "MojoNet Github",
+	"Report bug/request feature": "Hiba bejelentés/ötletek",
+	"!Open MojoNet": "!MojoNet megnyitása",
+	"Quit": "Kilépés",
+	"(active)": "(aktív)",
+	"(passive)": "(passive)",
+	"Connections: %s": "Kapcsolatok: %s",
+	"Received: %.2f MB | Sent: %.2f MB": "Fogadott: %.2f MB | Küldött: %.2f MB",
+	"Show console window": "Parancssor mutatása",
+	"Start MojoNet when Windows starts": "MojoNet indítása a Windows-al együtt"
+}

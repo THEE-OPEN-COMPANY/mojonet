@@ -1,0 +1,5 @@
+{
+	"name": "Announcemojo",
+	"description": "Announce using MojoNet protocol.",
+	"default": "enabled"
+}

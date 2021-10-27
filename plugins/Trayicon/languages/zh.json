@@ -1,0 +1,14 @@
+{
+	"MojoNet Twitter": "MojoNet Twitter",
+	"MojoNet Reddit": "MojoNet Reddit",
+	"MojoNet Github": "MojoNet Github",
+	"Report bug/request feature": "反馈问题/请求功能",
+	"!Open MojoNet": "!打开 MojoNet",
+	"Quit": "退出",
+	"(active)": "(主动模式)",
+	"(passive)": "(被动模式)",
+	"Connections: %s": "连接数: %s",
+	"Received: %.2f MB | Sent: %.2f MB": "已接收: %.2f MB | 已发送: %.2f MB",
+	"Show console window": "显示控制台窗口",
+	"Start MojoNet when Windows starts": "在 Windows 启动时运行 MojoNet"
+}

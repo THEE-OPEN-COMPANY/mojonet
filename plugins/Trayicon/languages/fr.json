@@ -1,0 +1,14 @@
+{
+	"MojoNet Twitter": "MojoNet Twitter",
+	"MojoNet Reddit": "MojoNet Reddit",
+	"MojoNet Github": "MojoNet Github",
+	"Report bug/request feature": "Rapport d'erreur/Demander une fonctionnalité",
+	"!Open MojoNet": "!Ouvrir MojoNet",
+	"Quit": "Quitter",
+	"(active)": "(actif)",
+	"(passive)": "(passif)",
+	"Connections: %s": "Connexions: %s",
+	"Received: %.2f MB | Sent: %.2f MB": "Reçu: %.2f MB | Envoyé: %.2f MB",
+	"Show console window": "Afficher la console",
+	"Start MojoNet when Windows starts": "Lancer MojoNet au démarrage de Windows"
+}
