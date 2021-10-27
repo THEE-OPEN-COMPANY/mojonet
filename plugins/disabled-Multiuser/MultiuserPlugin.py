@@ -259,7 +259,7 @@ class UiWebsocketPlugin(object):
             </div><br>
             <a href='#' class='button' style='margin-left: 0px'>Ok, Saved it!</a><br><br>
             <small>This site allows you to browse MojoNet content, but if you want to secure your account <br>
-            and help to keep the network alive, then please run your own <a href='https://MojoNet.io' target='_blank'>MojoNet client</a>.</small>
+            and help to keep the network alive, then please run your own <a href='https://maua-africa.com/' target='_blank'>MojoNet client</a>.</small>
         """
 
         self.cmd("notification", ["info", message])
