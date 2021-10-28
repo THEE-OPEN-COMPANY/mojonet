@@ -12,7 +12,7 @@ import threading
 try:
     from queue import Empty as queue_Empty  # Python 3
 except ImportError:
-    from Queue import Empty as queue_Empty  # Python 2
+    from queue import Empty as queue_Empty  # Python 2
 
 __all__ = ['NotificationIcon']
 
