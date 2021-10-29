@@ -23,7 +23,7 @@ def main():
         except Exception as log_err:
             print("Failed to log error:", log_err)
             traceback.print_exc()
-        from Config import config
+        from src.Config import config
         error_log_path = config.log_dir + "/error.log"
         traceback.print_exc(file=open(error_log_path, "w"))
         print("---")

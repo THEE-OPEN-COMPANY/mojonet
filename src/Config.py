@@ -411,6 +411,9 @@ class Config(object):
 
         return self.parser
 
+    def debug(self):
+        return True
+
     def loadTrackersFile(self):
         if not self.trackers_file:
             return None
