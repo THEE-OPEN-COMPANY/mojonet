@@ -1,0 +1,124 @@
+{
+ "address": "1MeFqFfFFGQfa1J3gJyYYUvb5Lksczq7nH",
+ "background-color": "#F2F4F6",
+ "background-color-dark": "#26242E",
+ "cloneable": true,
+ "description": "Social site",
+ "domain": "Me.ZeroNetwork.bit",
+ "favicon": "mojome.ico",
+ "files": {
+  "css/all.css": {
+   "sha512": "9c2813dfa7d1e97e109b593eaca83b34bbbf78345aac3af4c7750213ec18645d",
+   "size": 140729
+  },
+  "dbschema.json": {
+   "sha512": "7e9fb8aff94c46b9874b9c10f2e056549664a671468f73094cb77cd85a4dd7d2",
+   "size": 3550
+  },
+  "img/loading-circle.gif": {
+   "sha512": "339baf1bccb9b80ae29c2493e73b40cf0588c96fc095954b475dea0538aaa929",
+   "size": 2346
+  },
+  "img/loading.gif": {
+   "sha512": "8a42b98962faea74618113166886be488c09dad10ca47fe97005edc5fb40cc00",
+   "size": 723
+  },
+  "img/logo.png": {
+   "sha512": "d78789ff8f7095d45ad484943b3d4e214289aea942cd5bec03dcde3f20a4c7a7",
+   "size": 3771
+  },
+  "img/logo.svg": {
+   "sha512": "a9764ac630d7206ad4de38fc13648df17e0b866a9d5dc14494071f70fcd7f374",
+   "size": 491
+  },
+  "img/nav-icon.png": {
+   "sha512": "08b21939aa2c2a8761e6a41a19ae4dfa2efa0ed7309c0b6c976cfbc1ef1dc42e",
+   "size": 937
+  },
+  "img/nav-icon.svg": {
+   "sha512": "27ca47ed3acf67db6ce75190cb396c4b4501bb498e897dbf395e2de803807ade",
+   "size": 638
+  },
+  "img/unkown.png": {
+   "sha512": "a972f05819097c3a38801b9004bf5011a2dcca257b915617d8ea44c202f2cdbd",
+   "size": 595
+  },
+  "index.html": {
+   "sha512": "5177583475bc5ef2ee543b5e1d945341ba0c24d855d3765e5fe4f12dc8588177",
+   "size": 719
+  },
+  "js-external/pngencoder.js": {
+   "sha512": "ecaadaad552d2610336995b48360253cd6d847b6aa590fc3d96e7245a5d5fe11",
+   "size": 53602
+  },
+  "js/all.js": {
+   "sha512": "8f2fd6284c70144be8989ff37cf7156dcb46a7afa9ff714bafe35afe8e91ce0c",
+   "size": 269337
+  },
+  "languages/da.json": {
+   "sha512": "5dc810fae4c6bfbcf2251ab28ff003a64155c4830cf79979f84868e41f48a64a",
+   "size": 3114
+  },
+  "languages/fr.json": {
+   "sha512": "193c033c87333fb0b5ab844433f5a299a27d6306e06b99d2df439f9f0d0ba7f5",
+   "size": 3447
+  },
+  "languages/hu.json": {
+   "sha512": "bc0f53e096ff1c701c63b0db227e5c51373c1903785ac448f1d9c44e81a1701f",
+   "size": 3294
+  },
+  "languages/it.json": {
+   "sha512": "ba67a787f4b3aef92008043499c26e6267ba975902700e16cff9491c6fe4bdf0",
+   "size": 3382
+  },
+  "languages/nl.json": {
+   "sha512": "b4f0863769a636b4fdb58091e7ffe5e84e315995b59e7c0b70e2b87b6927a8f9",
+   "size": 3540
+  },
+  "languages/pt-br.json": {
+   "sha512": "dfd554eca364f1fb86ecedc98866638dee8c2118bedbf9b32fee797ec6b60fe4",
+   "size": 3491
+  },
+  "languages/sk.json": {
+   "sha512": "779e69b2a6750847438458971431b0406047784314c1c30a66f6b03091d378c1",
+   "size": 3518
+  },
+  "languages/tr.json": {
+   "sha512": "d9df6b218bcf359766ee3416a0cf4b4a3e9181601a7106957f674b22a79aa07a",
+   "size": 3428
+  },
+  "languages/zh-tw.json": {
+   "sha512": "79a98d4b5673789214143de370216c3bb51f3f863031d66fcf7f36c57ee15933",
+   "size": 3403
+  },
+  "languages/zh.json": {
+   "sha512": "fdcc53981de208ad50359d4abd427e0b1de5d6291c683b99e95b8bbefc2142f2",
+   "size": 3424
+  },
+  "mojome.ico": {
+   "sha512": "94fb8e604e75fdb1aabc04839ff18b384190f216361c60d57dc32b7a8f1f58b3",
+   "size": 1150
+  }
+ },
+ "ignore": "(merged-.*|(js|css)/(?!all.(js|css)))",
+ "inner_path": "content.json",
+ "modified": 1513204798,
+ "postmessage_nonce_security": true,
+ "settings": {
+  "default_hubs": {
+   "1MoonP8t4rk9QamBUPh5Aspkwa1Xhf5ux2": {
+    "description": "Hub for mojome users. Runner: Nofish",
+    "title": "Moon hub"
+   }
+  }
+ },
+ "signers_sign": "G/UCyELE5shc5f/FSJSe2KvxGlZiS5fzvn7Ezhha0gN/QOFeznJtZWS61J20FfkGfHdp1HcpWv//anioez1iOW0=",
+ "signs": {
+  "1MeFqFfFFGQfa1J3gJyYYUvb5Lksczq7nH": "G/4+dyjTSYsqdEBCthX7vsLK8Iev7JGeQlsYwyvd28pmeNnmVrtJXVJbBqlvPOjmH4Nw29dj/aOgVNAxhLaeSpw="
+ },
+ "signs_required": 1,
+ "title": "mojome",
+ "translate": ["js/all.js"],
+ "viewport": "width=device-width, initial-scale=0.8",
+ "zeronet_version": "0.6.0"
+}
