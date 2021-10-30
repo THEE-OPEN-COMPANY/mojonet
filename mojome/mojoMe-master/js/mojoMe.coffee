@@ -1,6 +1,6 @@
 window.h = maquette.h
 
-class mojome extends ZeroFrame
+class mojome extends mojoFrame
 	init: ->
 		@params = {}
 		@merged_sites = {}
@@ -328,7 +328,7 @@ class mojome extends ZeroFrame
 	setServerInfo: (server_info) ->
 		@server_info = server_info
 		if @server_info.rev < 1400
-			@cmd "wrapperNotification", ["error", "This site requries ZeroNet 0.4.0+<br>Please delete the site from your current client, update it, then add again!"]
+			@cmd "wrapperNotification", ["error", "This site requries mojoNet 0.4.0+<br>Please delete the site from your current client, update it, then add again!"]
 		@projector.scheduleRender()
 
 

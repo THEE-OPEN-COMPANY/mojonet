@@ -238,7 +238,7 @@ class Post extends Class
 				@meta.render()
 			h("div.actions", [
 				h("a.icon.icon-comment.link", {href: "#Comment", onclick: @handleCommentClick}, "Comment"),
-				h("a.like.link", {classes: {active: Page.user?.likes[post_uri], loading: @submitting_like, "like-zero": @row.likes == 0}, href: "#Like", onclick: @handleLikeClick},
+				h("a.like.link", {classes: {active: Page.user?.likes[post_uri], loading: @submitting_like, "like-mojo": @row.likes == 0}, href: "#Like", onclick: @handleLikeClick},
 					h("div.icon.icon-heart", {classes: {active: Page.user?.likes[post_uri]}}),
 					if @row.likes then @row.likes
 				)

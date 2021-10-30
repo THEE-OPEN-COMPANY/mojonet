@@ -107,7 +107,7 @@ class ContentCreateProfile extends Class
 
 
 	handleSelectUserClick: ->
-		Page.cmd "certSelect", {"accepted_domains": ["zeroid.bit"], "accept_any": true}
+		Page.cmd "certSelect", {"accepted_domains": ["mojoid.bit"], "accept_any": true}
 		return false
 
 

@@ -91,7 +91,7 @@ class PostMeta extends Class
 			},
 				h("a.fullsize", {href: "#", onclick: @handleImageClick, style: style_fullsize}),
 				if Page.server_info.rev < 1700
-					h("small.oldversion", "You need ZeroNet 0.5.0 to view this image")
+					h("small.oldversion", "You need mojoNet 0.5.0 to view this image")
 				if @image_preview?.optional_info
 					h("a.show", {href: "#", onclick: @handleImageClick}, h("div.title", "Loading...\nShow image"))
 				if @image_preview?.optional_info

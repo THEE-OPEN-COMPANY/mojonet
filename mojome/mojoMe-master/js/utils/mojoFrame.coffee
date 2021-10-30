@@ -1,4 +1,4 @@
-class ZeroFrame extends Class
+class mojoFrame extends Class
 	constructor: (url) ->
 		@url = url
 		@waiting_cb = {}
@@ -93,4 +93,4 @@ class ZeroFrame extends Class
 
 
 
-window.ZeroFrame = ZeroFrame
+window.mojoFrame = mojoFrame

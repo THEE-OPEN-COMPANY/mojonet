@@ -4,7 +4,7 @@
  "background-color-dark": "#26242E",
  "cloneable": true,
  "description": "Social site",
- "domain": "Me.ZeroNetwork.bit",
+ "domain": "Me.mojoNetwork.bit",
  "favicon": "mojome.ico",
  "files": {
   "css/all.css": {
@@ -120,5 +120,5 @@
  "title": "mojome",
  "translate": ["js/all.js"],
  "viewport": "width=device-width, initial-scale=0.8",
- "zeronet_version": "0.6.0"
+ "mojonet_version": "0.6.0"
 }

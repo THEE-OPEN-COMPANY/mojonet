@@ -51,7 +51,7 @@ class PostCreate extends Class
 
 	handleUploadClick: =>
 		if Page.server_info.rev < 1700
-			Page.cmd "wrapperNotification", ["info", "You need ZeroNet version 0.5.0 to upload images"]
+			Page.cmd "wrapperNotification", ["info", "You need mojoNet version 0.5.0 to upload images"]
 		else
 			@upload.handleUploadClick()
 

@@ -81,7 +81,7 @@ class User extends Class
 			"avatar": "generate",
 			"user_name": @row?.user_name,
 			"hub": @hub,
-			"intro": "Random ZeroNet user",
+			"intro": "Random mojoNet user",
 			"post": [{
 				"post_id": 1,
 				"date_added": Time.timestamp(),
@@ -124,7 +124,7 @@ class User extends Class
 
 	saveUserdb: (data, cb) ->
 		cert_provider = Page.site_info.cert_user_id.replace(/.*@/, "")
-		if cert_provider not in ["zeroid.bit", "zeroverse.bit"]
+		if cert_provider not in ["mojoid.bit", "mojoverse.bit"]
 			@log "Cert provider #{cert_provider} not supported by userdb!"
 			cb(false)
 			return false
@@ -267,7 +267,7 @@ class User extends Class
 
 	handleMuteClick: (e) =>
 		if Page.server_info.rev < 1880
-			Page.cmd "wrapperNotification", ["info", "You need ZeroNet 0.5.2 to use this feature."]
+			Page.cmd "wrapperNotification", ["info", "You need mojoNet 0.5.2 to use this feature."]
 			return false
 		Page.cmd "muteAdd", [@auth_address, @row.cert_user_id, "Muted from [page](http://127.0.0.1:43110/#{Page.address}/?#{Page.history_state.url})"]
 		return false

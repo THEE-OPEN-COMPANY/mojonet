@@ -39,16 +39,16 @@ class Text
 		return text
 
 	emailLinks: (text) ->
-		return text.replace(/([a-zA-Z0-9]+)@zeroid.bit/g, "<a href='?to=$1' onclick='return Page.message_create.show(\"$1\")'>$1@zeroid.bit</a>")
+		return text.replace(/([a-zA-Z0-9]+)@mojoid.bit/g, "<a href='?to=$1' onclick='return Page.message_create.show(\"$1\")'>$1@mojoid.bit</a>")
 
-	# Convert zeronet html links to relaitve
+	# Convert mojonet html links to relaitve
 	fixHtmlLinks: (text) ->
 		# Fix site links
-		text = text.replace(/href="http:\/\/(127.0.0.1|localhost):43110\/(Me.ZeroNetwork.bit|1MeFqFfFFGQfa1J3gJyYYUvb5Lksczq7nH)\/\?/gi, 'href="?')
+		text = text.replace(/href="http:\/\/(127.0.0.1|localhost):43110\/(Me.mojoNetwork.bit|1MeFqFfFFGQfa1J3gJyYYUvb5Lksczq7nH)\/\?/gi, 'href="?')
 		if window.is_proxy
-			text = text.replace(/href="http:\/\/(127.0.0.1|localhost):43110/gi, 'href="http://zero')
-			text = text.replace(/http:\/\/zero\/([^\/]+\.bit)/, "http://$1")
-			text = text.replace(/href="\/([A-Za-z0-9]{26,35})/g, 'href="http://zero/$1')  # Links without 127.0.0.1
+			text = text.replace(/href="http:\/\/(127.0.0.1|localhost):43110/gi, 'href="http://mojo')
+			text = text.replace(/http:\/\/mojo\/([^\/]+\.bit)/, "http://$1")
+			text = text.replace(/href="\/([A-Za-z0-9]{26,35})/g, 'href="http://mojo/$1')  # Links without 127.0.0.1
 		else
 			text = text.replace(/href="http:\/\/(127.0.0.1|localhost):43110/g, 'href="')
 		# Add no-refresh linking to local links
@@ -59,9 +59,9 @@ class Text
 	# Convert a single link to relative
 	fixLink: (link) ->
 		if window.is_proxy
-			back = link.replace(/http:\/\/(127.0.0.1|localhost):43110/, 'http://zero')
-			back = back.replace(/http:\/\/zero\/([^\/]+\.bit)/, "http://$1")  # Domain links
-			back = back.replace(/\/([A-Za-z0-9]{26,35})/, "http://zero/$1")  # Links without 127.0.0.1
+			back = link.replace(/http:\/\/(127.0.0.1|localhost):43110/, 'http://mojo')
+			back = back.replace(/http:\/\/mojo\/([^\/]+\.bit)/, "http://$1")  # Domain links
+			back = back.replace(/\/([A-Za-z0-9]{26,35})/, "http://mojo/$1")  # Links without 127.0.0.1
 			return back
 		else
 			return link.replace(/http:\/\/(127.0.0.1|localhost):43110/, '')
@@ -74,7 +74,7 @@ class Text
 			if "." in address # Domain
 				return "http://"+address+"/"
 			else
-				return "http://zero/"+address+"/"
+				return "http://mojo/"+address+"/"
 		else
 			return "/"+address+"/"
 
@@ -177,6 +177,6 @@ class Text
 			return (size/1024).toFixed(2)+" KB"
 
 
-window.is_proxy = (document.location.host == "zero" or window.location.pathname == "/")
+window.is_proxy = (document.location.host == "mojo" or window.location.pathname == "/")
 window.marked_renderer = new MarkedRenderer()
 window.Text = new Text()

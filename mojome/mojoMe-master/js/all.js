@@ -2306,15 +2306,15 @@ function clone(obj) {
     };
 
     Text.prototype.emailLinks = function(text) {
-      return text.replace(/([a-zA-Z0-9]+)@zeroid.bit/g, "<a href='?to=$1' onclick='return Page.message_create.show(\"$1\")'>$1@zeroid.bit</a>");
+      return text.replace(/([a-zA-Z0-9]+)@mojoid.bit/g, "<a href='?to=$1' onclick='return Page.message_create.show(\"$1\")'>$1@mojoid.bit</a>");
     };
 
     Text.prototype.fixHtmlLinks = function(text) {
-      text = text.replace(/href="http:\/\/(127.0.0.1|localhost):43110\/(Me.ZeroNetwork.bit|1MeFqFfFFGQfa1J3gJyYYUvb5Lksczq7nH)\/\?/gi, 'href="?');
+      text = text.replace(/href="http:\/\/(127.0.0.1|localhost):43110\/(Me.mojoNetwork.bit|1MeFqFfFFGQfa1J3gJyYYUvb5Lksczq7nH)\/\?/gi, 'href="?');
       if (window.is_proxy) {
-        text = text.replace(/href="http:\/\/(127.0.0.1|localhost):43110/gi, 'href="http://zero');
-        text = text.replace(/http:\/\/zero\/([^\/]+\.bit)/, "http://$1");
-        text = text.replace(/href="\/([A-Za-z0-9]{26,35})/g, 'href="http://zero/$1');
+        text = text.replace(/href="http:\/\/(127.0.0.1|localhost):43110/gi, 'href="http://mojo');
+        text = text.replace(/http:\/\/mojo\/([^\/]+\.bit)/, "http://$1");
+        text = text.replace(/href="\/([A-Za-z0-9]{26,35})/g, 'href="http://mojo/$1');
       } else {
         text = text.replace(/href="http:\/\/(127.0.0.1|localhost):43110/g, 'href="');
       }
@@ -2325,9 +2325,9 @@ function clone(obj) {
     Text.prototype.fixLink = function(link) {
       var back;
       if (window.is_proxy) {
-        back = link.replace(/http:\/\/(127.0.0.1|localhost):43110/, 'http://zero');
-        back = back.replace(/http:\/\/zero\/([^\/]+\.bit)/, "http://$1");
-        back = back.replace(/\/([A-Za-z0-9]{26,35})/, "http://zero/$1");
+        back = link.replace(/http:\/\/(127.0.0.1|localhost):43110/, 'http://mojo');
+        back = back.replace(/http:\/\/mojo\/([^\/]+\.bit)/, "http://$1");
+        back = back.replace(/\/([A-Za-z0-9]{26,35})/, "http://mojo/$1");
         return back;
       } else {
         return link.replace(/http:\/\/(127.0.0.1|localhost):43110/, '');
@@ -2343,7 +2343,7 @@ function clone(obj) {
         if (indexOf.call(address, ".") >= 0) {
           return "http://" + address + "/";
         } else {
-          return "http://zero/" + address + "/";
+          return "http://mojo/" + address + "/";
         }
       } else {
         return "/" + address + "/";
@@ -2502,7 +2502,7 @@ function clone(obj) {
 
   })();
 
-  window.is_proxy = document.location.host === "zero" || window.location.pathname === "/";
+  window.is_proxy = document.location.host === "mojo" || window.location.pathname === "/";
 
   window.marked_renderer = new MarkedRenderer();
 
@@ -2797,19 +2797,19 @@ function clone(obj) {
 }).call(this);
 
 
-/* ---- utils/ZeroFrame.coffee ---- */
+/* ---- utils/mojoFrame.coffee ---- */
 
 
 (function() {
-  var ZeroFrame,
+  var mojoFrame,
     bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  ZeroFrame = (function(superClass) {
-    extend(ZeroFrame, superClass);
+  mojoFrame = (function(superClass) {
+    extend(mojoFrame, superClass);
 
-    function ZeroFrame(url) {
+    function mojoFrame(url) {
       this.onCloseWebsocket = bind(this.onCloseWebsocket, this);
       this.onOpenWebsocket = bind(this.onOpenWebsocket, this);
       this.onRequest = bind(this.onRequest, this);
@@ -2823,11 +2823,11 @@ function clone(obj) {
       this.init();
     }
 
-    ZeroFrame.prototype.init = function() {
+    mojoFrame.prototype.init = function() {
       return this;
     };
 
-    ZeroFrame.prototype.connect = function() {
+    mojoFrame.prototype.connect = function() {
       this.target = window.parent;
       window.addEventListener("message", this.onMessage, false);
       this.cmd("innerReady");
@@ -2845,7 +2845,7 @@ function clone(obj) {
       })(this));
     };
 
-    ZeroFrame.prototype.handleState = function(state) {
+    mojoFrame.prototype.handleState = function(state) {
       if (state != null) {
         this.history_state = state;
       }
@@ -2855,7 +2855,7 @@ function clone(obj) {
       }
     };
 
-    ZeroFrame.prototype.onMessage = function(e) {
+    mojoFrame.prototype.onMessage = function(e) {
       var cmd, message;
       message = e.data;
       cmd = message.cmd;
@@ -2881,11 +2881,11 @@ function clone(obj) {
       }
     };
 
-    ZeroFrame.prototype.onRequest = function(cmd, message) {
+    mojoFrame.prototype.onRequest = function(cmd, message) {
       return this.log("Unknown request", message);
     };
 
-    ZeroFrame.prototype.response = function(to, result) {
+    mojoFrame.prototype.response = function(to, result) {
       return this.send({
         "cmd": "response",
         "to": to,
@@ -2893,7 +2893,7 @@ function clone(obj) {
       });
     };
 
-    ZeroFrame.prototype.cmd = function(cmd, params, cb) {
+    mojoFrame.prototype.cmd = function(cmd, params, cb) {
       if (params == null) {
         params = {};
       }
@@ -2906,7 +2906,7 @@ function clone(obj) {
       }, cb);
     };
 
-    ZeroFrame.prototype.cmdp = function(cmd, params) {
+    mojoFrame.prototype.cmdp = function(cmd, params) {
       var p;
       if (params == null) {
         params = {};
@@ -2921,7 +2921,7 @@ function clone(obj) {
       return p;
     };
 
-    ZeroFrame.prototype.send = function(message, cb) {
+    mojoFrame.prototype.send = function(message, cb) {
       if (cb == null) {
         cb = null;
       }
@@ -2934,19 +2934,19 @@ function clone(obj) {
       }
     };
 
-    ZeroFrame.prototype.onOpenWebsocket = function() {
+    mojoFrame.prototype.onOpenWebsocket = function() {
       return this.log("Websocket open");
     };
 
-    ZeroFrame.prototype.onCloseWebsocket = function() {
+    mojoFrame.prototype.onCloseWebsocket = function() {
       return this.log("Websocket close");
     };
 
-    return ZeroFrame;
+    return mojoFrame;
 
   })(Class);
 
-  window.ZeroFrame = ZeroFrame;
+  window.mojoFrame = mojoFrame;
 
 }).call(this);
 
@@ -3515,7 +3515,7 @@ function clone(obj) {
 
     ContentCreateProfile.prototype.handleSelectUserClick = function() {
       Page.cmd("certSelect", {
-        "accepted_domains": ["zeroid.bit"],
+        "accepted_domains": ["mojoid.bit"],
         "accept_any": true
       });
       return false;
@@ -3894,7 +3894,7 @@ function clone(obj) {
 
     ContentProfile.prototype.handleOptionalHelpClick = function() {
       if (Page.server_info.rev < 1700) {
-        Page.cmd("wrapperNotification", ["info", "You need ZeroNet version 0.5.0 use this feature"]);
+        Page.cmd("wrapperNotification", ["info", "You need mojoNet version 0.5.0 use this feature"]);
         return false;
       }
       this.user.hasHelp((function(_this) {
@@ -4236,7 +4236,7 @@ function clone(obj) {
         })(this));
       } else {
         Page.cmd("certSelect", {
-          "accepted_domains": ["zeroid.bit"],
+          "accepted_domains": ["mojoid.bit"],
           "accept_any": true
         });
       }
@@ -4834,7 +4834,7 @@ function clone(obj) {
             classes: {
               active: (ref2 = Page.user) != null ? ref2.likes[post_uri] : void 0,
               loading: this.submitting_like,
-              "like-zero": this.row.likes === 0
+              "like-mojo": this.row.likes === 0
             },
             href: "#Like",
             onclick: this.handleLikeClick
@@ -4939,7 +4939,7 @@ function clone(obj) {
 
     PostCreate.prototype.handleUploadClick = function() {
       if (Page.server_info.rev < 1700) {
-        return Page.cmd("wrapperNotification", ["info", "You need ZeroNet version 0.5.0 to upload images"]);
+        return Page.cmd("wrapperNotification", ["info", "You need mojoNet version 0.5.0 to upload images"]);
       } else {
         return this.upload.handleUploadClick();
       }
@@ -5371,7 +5371,7 @@ function clone(obj) {
           href: "#",
           onclick: this.handleImageClick,
           style: style_fullsize
-        }), Page.server_info.rev < 1700 ? h("small.oldversion", "You need ZeroNet 0.5.0 to view this image") : void 0, ((ref5 = this.image_preview) != null ? ref5.optional_info : void 0) ? h("a.show", {
+        }), Page.server_info.rev < 1700 ? h("small.oldversion", "You need mojoNet 0.5.0 to view this image") : void 0, ((ref5 = this.image_preview) != null ? ref5.optional_info : void 0) ? h("a.show", {
           href: "#",
           onclick: this.handleImageClick
         }, h("div.title", "Loading...\nShow image")) : void 0, ((ref6 = this.image_preview) != null ? ref6.optional_info : void 0) ? h("a.details", {
@@ -5592,7 +5592,7 @@ function clone(obj) {
         "avatar": "generate",
         "user_name": (ref = this.row) != null ? ref.user_name : void 0,
         "hub": this.hub,
-        "intro": "Random ZeroNet user",
+        "intro": "Random mojoNet user",
         "post": [
           {
             "post_id": 1,
@@ -5667,7 +5667,7 @@ function clone(obj) {
     User.prototype.saveUserdb = function(data, cb) {
       var cert_provider;
       cert_provider = Page.site_info.cert_user_id.replace(/.*@/, "");
-      if (cert_provider !== "zeroid.bit" && cert_provider !== "zeroverse.bit") {
+      if (cert_provider !== "mojoid.bit" && cert_provider !== "mojoverse.bit") {
         this.log("Cert provider " + cert_provider + " not supported by userdb!");
         cb(false);
         return false;
@@ -5931,7 +5931,7 @@ function clone(obj) {
 
     User.prototype.handleMuteClick = function(e) {
       if (Page.server_info.rev < 1880) {
-        Page.cmd("wrapperNotification", ["info", "You need ZeroNet 0.5.2 to use this feature."]);
+        Page.cmd("wrapperNotification", ["info", "You need mojoNet 0.5.2 to use this feature."]);
         return false;
       }
       Page.cmd("muteAdd", [this.auth_address, this.row.cert_user_id, "Muted from [page](http://127.0.0.1:43110/" + Page.address + "/?" + Page.history_state.url + ")"]);
@@ -6592,7 +6592,7 @@ function clone(obj) {
     mojome.prototype.setServerInfo = function(server_info) {
       this.server_info = server_info;
       if (this.server_info.rev < 1400) {
-        this.cmd("wrapperNotification", ["error", "This site requries ZeroNet 0.4.0+<br>Please delete the site from your current client, update it, then add again!"]);
+        this.cmd("wrapperNotification", ["error", "This site requries mojoNet 0.4.0+<br>Please delete the site from your current client, update it, then add again!"]);
       }
       return this.projector.scheduleRender();
     };
@@ -6603,7 +6603,7 @@ function clone(obj) {
 
     return mojome;
 
-  })(ZeroFrame);
+  })(mojoFrame);
 
   window.Page = new mojome();
 
