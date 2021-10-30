@@ -15,7 +15,7 @@ class UiRequestPlugin(object):
             <style>
              #donation_message { position: absolute; bottom: 0px; right: 20px; padding: 7px; font-family: Arial; font-size: 11px }
             </style>
-            <a id='donation_message' href='https://blockchain.info/address/1QDhxQ6PraUZa21ET5fYUCPgdrwBomnFgX' target='_blank'>Please donate to help to keep this mojoProxy alive</a>
+            <a id='donation_message' ' target='_blank'>Please donate to help to keep this mojoProxy alive</a>
             </body>
             </html>
         """

@@ -28,7 +28,7 @@ class ActionsPlugin(object):
 
         icon = notificationicon.NotificationIcon(
             os.path.join(os.path.dirname(
-                os.path.abspath(__file__)), 'trayicon.ico'),
+                os.path.abspath(__file__)), ''),
             "MojoNet %s" % config.version
         )
         self.icon = icon

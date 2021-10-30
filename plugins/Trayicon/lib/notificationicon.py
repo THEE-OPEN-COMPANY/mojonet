@@ -739,7 +739,7 @@ if __name__ == "__main__":
         return "!The time is: %s" % time.time()
 
     ni = NotificationIcon(os.path.join(os.path.dirname(
-        os.path.abspath(__file__)), '../trayicon.ico'), "MojoNet 0.2.9")
+        os.path.abspath(__file__)), '../'), "MojoNet 0.2.9")
     ni.items = [
         (dynamicTitle, False),
         ('Hello', greet),
