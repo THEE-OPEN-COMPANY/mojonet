@@ -1,0 +1,486 @@
+class FeedList extends Class
+	constructor: ->
+		@feeds = null
+		@searching = null
+		@searching_text = null
+		@searched = null
+		@res = null
+		@loading = false
+		@filter = null
+		@feed_types = {}
+		@need_update = false
+		@updating = false
+		@limit = 30
+		@query_limit = 20
+		@query_day_limit = 3
+		@show_stats = false
+		@feed_keys = {}
+		@date_feed_visit = null
+		@date_save_feed_visit = 0
+		Page.on_settings.then =>
+			@need_update = true
+			document.body.onscroll = =>
+				RateLimit 300, =>
+					@checkScroll()
+		@
+
+	checkScroll: =>
+		scroll_top = window.pageYOffset or document.documentElement.scrollTop or document.body.scrollTop or 0
+		if scroll_top + window.innerHeight > document.getElementById("FeedList").clientHeight - 400 and not @updating and @feeds?.length > 5 and Page.mode == "Sites" and @limit < 300
+			@limit += 30
+			@query_limit += 30
+			if @query_day_limit != null
+				@query_day_limit += 5
+				if @query_day_limit > 30
+					@query_day_limit = null
+			@log "checkScroll update"
+			if @searching and Page.server_info.rev >= 3817
+				@search(@searching)
+			else
+				@update()
+			return true
+		else
+			return false
+
+	displayRows: (rows, search) =>
+		@feeds = []
+		@feed_keys = {}
+		if not rows
+			return false
+
+		rows.sort (a, b) ->
+			return a.date_added + (if a.type == "mention" then 1 else 0) - b.date_added - (if b.type == "mention" then 1 else 0)  # Prefer mention
+
+		row_group = {}
+		last_row = {}
+		@feed_types = {}
+		rows.reverse()
+		for row in rows
+			if last_row.body == row.body and last_row.date_added == row.date_added
+				continue  # Duplicate (eg. also signed up for comments and mentions)
+
+			if row_group.type == row.type and row.url == row_group.url and row.site == row_group.site
+				if not row_group.body_more?
+					row_group.body_more = []
+					row_group.body_more.push(row.body)
+				else if row_group.body_more.length < 3
+					row_group.body_more.push(row.body)
+				else
+					row_group.more ?= 0
+					row_group.more += 1
+				row_group.feed_id = row.date_added
+			else
+				row.feed_id ?= row.date_added
+				row.key = row.site + row.type + row.title + row.feed_id
+				if @feed_keys[row.key]
+					@log "Duplicate feed key: #{row.key}"
+				else
+					@feeds.push(row)
+				@feed_keys[row.key] = true
+				row_group = row
+			@feed_types[row.type] = true
+			last_row = row
+		Page.projector.scheduleRender()
+
+
+	update: (cb) =>
+		if @searching or @updating
+			return false
+		if not Page.server_info or Page.server_info.rev < 1850
+			params = []
+		else
+			params = {limit: @query_limit, day_limit: @query_day_limit}
+		@logStart "Updating feed", params
+		@updating = true
+		Page.cmd "feedQuery", params, (res) =>
+			if res.rows
+				rows = res.rows
+			else
+				rows = res
+			@res = res
+
+			if rows.length < 10 and @query_day_limit != null
+				@log "Only #{res.rows.length} results, query without day limit"
+				@query_limit = 20
+				@query_day_limit = null
+				@updating = false
+				@update()
+				return false
+
+			@displayRows(rows)
+			setTimeout @checkScroll, 100
+			@logEnd "Updating feed"
+			if cb then cb()
+			@updating = false
+
+	search: (search, cb) =>
+		if Page.server_info.rev < 1230
+			@displayRows([])
+			if cb then cb()
+			return
+
+		if not Page.server_info or Page.server_info.rev < 3817
+			params = search
+		else
+			params = {search: search, limit: @query_limit * 3, day_limit: @query_day_limit * 10 or null}
+
+		@log "Searching for", params
+		@loading = true
+		Page.projector.scheduleRender()
+		Page.cmd "feedSearch", params, (res) =>
+			@loading = false
+
+			if res.rows.length < 10 and @query_day_limit != null
+				@log "Only #{res.rows.length} results, search without day limit"
+				@query_limit = 30
+				@query_day_limit = null
+				@search(search, cb)
+				return false
+
+			@displayRows(res["rows"], search)
+			delete res["rows"]
+			@res = res
+
+			@searched = search
+			if cb then cb()
+
+	# Focus on search input if key pressed an no input on focus
+	storeNodeSearch: (node) =>
+		document.body.onkeypress = (e) =>
+			if e.charCode in [0, 32]  # Not a normal character or space
+				return
+			if document.activeElement?.tagName != "INPUT"
+				node.focus()
+
+	handleSearchInput: (e) =>
+		if @searching?.length > 3
+			delay = 400
+		else
+			delay = 800
+
+		# More delay for heavy clients
+		if Page.site_list.sites.length > 300
+			delay = delay * 3
+		else if Page.site_list.sites.length > 100
+			delay = delay * 2
+
+		@searching = e.target.value
+		@searching_text = @searching.replace(/[^ ]+:.*$/, "").trim()
+
+		if Page.server_info.rev < 1230
+			@feeds = []
+			@feed_keys = {}
+
+		if e.target.value == ""  # No delay when returning to newsfeed
+			delay = 1
+
+		if e.keyCode == 13  # Enter
+			delay = 1
+
+		clearInterval @input_timer
+		setTimeout =>
+			@waiting = true
+
+		# Delay calls to reduce server load
+		@input_timer = setTimeout ( =>
+			RateLimitCb delay, (cb_done) =>
+				@limit = 30
+				@query_limit = 20
+				@query_day_limit = 3
+				@waiting = false
+				if @searching
+					@search @searching, =>
+						cb_done()
+				else
+					@update =>
+						cb_done()
+						if not @searching
+							@searching = null
+						@searched = null
+		), delay
+		return false
+
+	handleSearchKeyup: (e) =>
+		if e.keyCode == 27 # Esc
+			e.target.value = ""
+			@handleSearchInput(e)
+		if e.keyCode == 13 # Enter
+			@handleSearchInput(e)
+		return false
+
+	handleFilterClick: (e) =>
+		@filter = e.target.getAttribute("href").replace("#", "")
+		if @filter == "all"
+			@filter = null
+		return false
+
+	handleSearchInfoClick: (e) =>
+		@show_stats = not @show_stats
+		return false
+
+	handleSearchClear: (e) =>
+		e.target.value = ""
+		@handleSearchInput(e)
+		return false
+
+	formatTitle: (title) ->
+		if @searching_text and @searching_text.length > 1
+			return Text.highlight(title, @searching_text)
+		else
+			if title
+				return title
+			else
+				return ""
+
+	formatBody: (body, type) ->
+		body = body.replace(/[\n\r]+/, "\n")  # Remove empty lines
+		if type == "comment" or type == "mention"
+			# Display Comment
+			username_match = body.match(/^(([a-zA-Z0-9\.]+)@[a-zA-Z0-9\.]+|@(.*?)):/)
+			if username_match
+				if username_match[2]
+					username_formatted = username_match[2] + " › "
+				else
+					username_formatted = username_match[3] + " › "
+				body = body.replace(/> \[(.*?)\].*/g, "$1: ")  # Replace original message quote
+				body = body.replace(/^[ ]*>.*/gm, "")  # Remove quotes
+				body = body.replace(username_match[0], "")  # Remove commenter from body
+			else
+				username_formatted = ""
+			body = body.replace(/\n/g, " ")
+			body = body.trim()
+
+			# Highligh matched search parts
+			if @searching_text and @searching_text.length > 1
+				body = Text.highlight(body, @searching_text)
+				if body[0].length > 60 and body.length > 1
+					body[0] = "..."+body[0][body[0].length-50..body[0].length-1]
+				return [h("b", Text.highlight(username_formatted, @searching_text)), body]
+			else
+				body = body[0..200]
+				return [h("b", [username_formatted]), body]
+		else
+			# Display post
+			body = body.replace(/\n/g, " ")
+
+			# Highligh matched search parts
+			if @searching_text and @searching_text.length > 1
+				body = Text.highlight(body, @searching_text)
+				if body[0].length > 60
+					body[0] = "..."+body[0][body[0].length-50..body[0].length-1]
+			else
+				body = body[0..200]
+			return body
+
+	formatType: (type, title) ->
+		if type == "comment"
+			return "Comment on"
+		else if type == "mention"
+			if title
+				return "You got mentioned in wanna see"
+			else
+				return "You got mentioned"
+		else
+			return ""
+
+	enterAnimation: (elem, props) =>
+		if @searching == null
+			return Animation.slideDown.apply(this, arguments)
+		else
+			return null
+
+	exitAnimation: (elem, remove_func, props) =>
+		if @searching == null
+			return Animation.slideUp.apply(this, arguments)
+		else
+			remove_func()
+
+	renderFeed: (feed) =>
+		if @filter and feed.type != @filter
+			return null
+
+		try
+			site = Page.site_list.item_list.items_bykey[feed.site]
+			type_formatted = @formatType(feed.type, feed.title)
+			classes = {}
+			if @date_feed_visit and feed.date_added > @date_feed_visit
+				classes["new"] = true
+			return h("div.feed."+feed.type, {key: feed.key, enterAnimation: @enterAnimation, exitAnimation: @exitAnimation, classes: classes}, [
+				h("div.details", [
+					h("span.dot", {title: "new"}, "\u2022"),
+					h("a.site", {href: site.getHref()}, [site.row.content.title]),
+					h("div.added", [Time.since(feed.date_added)])
+				]),
+				h("div.circle", {style: "border-color: #{Text.toColor(feed.type+site.row.address, 60, 60)}"}),
+				h("div.title-container", [
+					if type_formatted then h("span.type", type_formatted),
+					h("a.title", {href: site.getHref()+feed.url}, @formatTitle(feed.title))
+				])
+				h("div.body", {key: feed.body, enterAnimation: @enterAnimation, exitAnimation: @exitAnimation}, @formatBody(feed.body, feed.type))
+				if feed.body_more  # Display comments
+					feed.body_more.map (body_more) =>
+						h("div.body", {key: body_more, enterAnimation: @enterAnimation, exitAnimation: @exitAnimation}, @formatBody(body_more, feed.type))
+				if feed.more > 0  # Collapse other types
+					h("a.more", {href: site.getHref()+feed.url}, ["+#{feed.more} more"])
+			])
+		catch err
+			@log err
+			return h("div", key: Time.timestamp())
+
+	renderWelcome: =>
+		h("div.welcome", [
+			h("img", {src: "img/logo.svg", height: 150, onerror: "this.src='img/logo.png'; this.onerror=null;"})
+			h("h1", "Welcome to mojoNet")
+			h("h2", "Let's build a decentralized Internet together !")
+			h("div.served", ["This site currently served by ", h("b.peers", (Page.site_info["peers"] or "n/a")), " peers, without any central server."])
+			h("div.sites", [
+				h("h3", "Some sites we created:"),
+				h("a.site.site-mojotalk", {href: Text.getSiteUrl("Talk.mojoNetwork.bit")}, [
+					h("div.title", ["mojoTalk"])
+					h("div.description", ["Reddit-like, decentralized forum"])
+					h("div.visit", ["Activate \u2501"])
+				]),
+				h("a.site.site-mojoblog", {href: Text.getSiteUrl("Blog.mojoNetwork.bit")}, [
+					h("div.title", ["mojoBlog"])
+					h("div.description", ["Microblogging platform"])
+					h("div.visit", ["Activate \u2501"])
+				]),
+				h("a.site.site-mojomail", {href: Text.getSiteUrl("Mail.mojoNetwork.bit")}, [
+					h("div.title", ["mojoMail"])
+					h("div.description", ["End-to-end encrypted mailing"])
+					h("div.visit", ["Activate \u2501"])
+				]),
+				h("a.site.site-mojome", {href: Text.getSiteUrl("Me.mojoNetwork.bit")}, [
+					h("div.title", ["mojoMe"])
+					h("div.description", ["P2P social network"])
+					h("div.visit", ["Activate \u2501"])
+				]),
+				h("a.site.site-mojosites", {href: Text.getSiteUrl("Sites.mojoNetwork.bit")}, [
+					h("div.title", ["mojoSites"])
+					h("div.description", ["Discover more sites"])
+					h("div.visit", ["Activate \u2501"])
+				])
+
+			])
+		])
+
+	renderSearchStat: (stat) =>
+		if stat.taken == 0
+			return null
+
+		total_taken = @res.taken
+		site = Page.site_list.item_list.items_bykey[stat.site]
+		if not site
+			return []
+
+		back = []
+		back.push(h("tr", {key: stat.site + "_" + stat.feed_name, classes: {"slow": stat.taken > total_taken * 0.1, "extra-slow": stat.taken > total_taken * 0.3}}, [
+			h("td.site", h("a.site", {href: site.getHref()}, [site.row.content.title])),
+			h("td.feed_name", stat.feed_name),
+			h("td.taken", (if stat.taken? then stat.taken + "s" else "n/a "))
+		]))
+		if stat.error
+			back.push(h("tr.error",
+				h("td", "Error:")
+				h("td", {colSpan: 2}, stat.error)
+			))
+		return back
+
+	handleNotificationHideClick: (e) =>
+		address = e.target.getAttribute("address")
+		Page.settings.siteblocks_ignore[address] = true
+		Page.mute_list.update()
+		Page.saveSettings()
+		return false
+
+	renderNotifications: =>
+		h("div.notifications", {classes: {empty: Page.mute_list.siteblocks_serving.length == 0}}, [
+			Page.mute_list.siteblocks_serving.map (siteblock) =>
+				h("div.notification", {key: siteblock.address, enterAnimation: Animation.show, exitAnimation: Animation.slideUpInout}, [
+					h("a.hide", {href: "#Hide", onclick: @handleNotificationHideClick, address: siteblock.address}, "\u00D7"),
+					"You are serving a blocked site: ",
+					h("a.site", {href: siteblock.site.getHref()}, siteblock.site.row.content.title or siteblock.site.row.address_short),
+					h("span.reason", [h("a.title", {href: siteblock.include.site.getHref()}, "Reason"), ": ", siteblock.reason])
+				])
+		])
+
+	getClass: =>
+		if @searching != null
+			return "search"
+		else
+			return "newsfeed.limit-#{@limit}"
+
+	saveFeedVisit: (date_feed_visit) =>
+		@log "Saving feed visit...", Page.settings.date_feed_visit, "->", date_feed_visit
+		Page.settings.date_feed_visit = date_feed_visit
+		Page.saveSettings()
+
+	renderSearchHelp: =>
+		h("div.search-help", [
+			"Tip: Search in specific site using ",
+			h("code", "anything site:SiteName")
+		])
+
+	render: =>
+		if @need_update
+			RateLimitCb(5000, @update)
+			@need_update = false
+
+		if @feeds and Page.settings.date_feed_visit < @feeds[0]?.date_added
+			@saveFeedVisit(@feeds[0].date_added)
+
+		if @feeds and Page.site_list.loaded and document.body.className != "loaded" and not @updating
+			if document.body.scrollTop > 500  # Scrolled down wait until next render
+				setTimeout (-> document.body.classList.add("loaded")), 2000
+			else
+				document.body.classList.add("loaded")
+
+		h("div#FeedList.FeedContainer", {classes: {faded: Page.mute_list.visible}},
+			if Page.mute_list.updated then @renderNotifications()
+			if @feeds == null or not Page.site_list.loaded
+				h("div.loading")
+			else if @feeds.length > 0 or @searching != null
+				[
+					h("div.feeds-filters", [
+						h("a.feeds-filter", {href: "#all", classes: {active: @filter == null}, onclick: @handleFilterClick}, "All"),
+						for feed_type of @feed_types
+							h("a.feeds-filter", {key: feed_type, href: "#" + feed_type, classes: {active: @filter == feed_type}, onclick: @handleFilterClick}, feed_type)
+					])
+					h("div.feeds-line"),
+					h("div.feeds-search", {classes: {"searching": @searching, "searched": @searched, "loading": @loading or @waiting}},
+						h("div.icon-magnifier"),
+						if @loading
+							h("div.loader", {enterAnimation: Animation.show, exitAnimation: Animation.hide}, h("div.arc"))
+						if @searched and not @loading
+							h("a.search-clear.nolink", {href: "#clear", onclick: @handleSearchClear, enterAnimation: Animation.show, exitAnimation: Animation.hide}, "\u00D7")
+						if @res?.stats
+							h("a.search-info.nolink",
+								{href: "#ShowStats", enterAnimation: Animation.show, exitAnimation: Animation.hide, onclick: @handleSearchInfoClick},
+								(if @searching then "#{@res.num} results " else "") + "from #{@res.sites} sites in #{@res.taken.toFixed(2)}s"
+							)
+						h("input", {type: "text", placeholder: "Search in connected sites", value: @searching, onkeyup: @handleSearchKeyup, oninput: @handleSearchInput, afterCreate: @storeNodeSearch}),
+						if @show_stats
+							h("div.search-info-stats", {enterAnimation: Animation.slideDown, exitAnimation: Animation.slideUp}, [
+								h("table", [
+									h("tr", h("th", "Site"), h("th", "Feed"), h("th.taken", "Taken")),
+									@res.stats.map @renderSearchStat
+								])
+							])
+						@renderSearchHelp()
+						if Page.server_info.rev < 1230 and @searching
+							h("div.search-noresult", {enterAnimation: Animation.show}, ["You need to ", h("a", {href: "#Update", onclick: Page.head.handleUpdatemojonetClick}, "update"), " your mojoNet client to use the search feature!"])
+						else if @feeds.length == 0 and @searched
+							h("div.search-noresult", {enterAnimation: Animation.show}, "No results for #{@searched}")
+					),
+					h("div.FeedList."+@getClass(), {classes: {loading: @loading or @waiting}}, @feeds[0..@limit].map(@renderFeed))
+				]
+			else
+				@renderWelcome()
+		)
+
+	onSiteInfo: (site_info) =>
+		if site_info.event?[0] == "file_done" and site_info.event?[1].endsWith(".json") and not site_info.event?[1].endsWith("content.json")
+			if not @searching
+				@need_update = true
+
+window.FeedList = FeedList

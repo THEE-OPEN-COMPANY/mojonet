@@ -1,0 +1,110 @@
+.left {
+	width: 400px; position: absolute; box-sizing: border-box; min-height: 100%; padding-top: 0px; z-index: 1; backface-visibility: hidden;
+	color: white; background-color: #232A31; background-image: linear-gradient(352deg, #322641, #2A333C); /* linear-gradient(352deg, #232A31, #2A333C);*/
+}
+body:after {
+	width: 400px; position: fixed; height: 100%; background-color: #322641;
+	display: block; z-index: -1; left: 0px; top: 0px; content: "";
+}
+.left h2 { text-transform: uppercase; font-size: 13px; font-weight: 500; padding: 10px; padding-left: 45px; letter-spacing: 1px; }
+.left .logo { background-color: #1E2429; padding: 20px; margin-bottom: 30px; display: block; text-decoration: none; color: white; transition: all 0.3s }
+.left .logo span { vertical-align: 39%; font-size: 27px; font-family: 'Text Me One'; }
+.left .logo img { padding: 4px; padding-left: 13px; }
+
+.left #Head { }
+.left #Head .settings { position: absolute; color: #8A91A2; right: 0px; font-size: 35px; text-decoration: none; padding: 24px; transition: all 0.3s }
+.left #Head .settings:hover { color: #FFF; transition: none }
+.left #Head .menu { left: 98%; top: 72px; white-space: nowrap; }
+.left #Head .modes { padding-left: 29px; }
+.left #Head .modes .mode {
+	padding: 5px; text-transform: uppercase; letter-spacing: 2px; margin: 10px; background-color: rgba(0,0,0,0); outline: 5px solid rgba(0,0,0,0);
+	font-size: 80%; text-decoration: none; color: white; opacity: 0.5; transition: all 0.3s
+}
+.left #Head .modes .mode:hover { opacity: 1; transition: none }
+.left #Head .modes .mode:active { background-color: rgba(133, 239, 255, 0.09); outline: 5px solid rgba(133, 239, 255, 0.09); transition: none }
+.left #Head .modes .mode:focus { transition: all 0.3s }
+.left #Head .modes .mode.active { font-size: 90%; border-bottom: 1px solid #83EFFF; color: #83EFFF; opacity: 1 }
+
+.left .site-filter {
+	margin-left: 33px; width: 85%; background-color: #1e2429; border: 1px solid #3d444b; margin-bottom: 30px;
+	padding: 13px; box-sizing: border-box; color: white; transition: all 0.3s; font-family: Roboto; font-size: 16px;
+}
+.left .site-filter:focus { border-color: #6c7884; outline: none }
+.left .filter-num {
+	padding-right: 34px; font-weight: bold; box-sizing: border-box; font-size: 11px; text-transform: uppercase; color: #7E8186;
+	pointer-events: none; width: 300px; display: inline-block; margin-left: -300px; text-align: right; vertical-align: 2px;
+}
+.left .filter-clear { color: white; text-decoration: none; margin-left: -41px; opacity: 0.5; padding: 16px; }
+.left .filter-clear:hover { opacity: 1; }
+
+.SiteSection .section-title { display: inline-block; width: 100%; opacity: 0.4; }
+.SiteSection .section-title:active { opacity: 0.8; transition: none; }
+.SiteSection .section-title:focus { transition: all 0.3s; }
+.SiteSection .section-title:hover .hide-title { text-decoration: underline; }
+.SiteSection .section-title .hide-title {
+	font-size: 9px; float: right; line-height: 15px; margin-right: 20px;
+	opacity: 0; pointer-events: none; transition: all 0.5s; transform: TranslateY(5px);
+}
+.SiteSection.hidden .section-title .hide-title { opacity: 1; pointer-events: all; transform: TranslateY(0px);  }
+.SiteSection { transition: all 0.3s ease-in-out; }
+.SiteList.hidden { margin-bottom: 0px; }
+
+.SiteList { margin-bottom: 40px; }
+.SiteList.hidden { margin-bottom: 40px; }
+.SiteList .site { border-bottom: 1px solid #3D444B; position: relative; white-space: nowrap; }
+.SiteList .site.disabled:hover { background-color: rgba(173,136,183,0.04); }
+.SiteList .site.disabled .circle { opacity: 0.3 }
+.SiteList .site.disabled .inner { color: white; opacity: 0.3 }
+.SiteList .site:last-child { border-bottom: none }
+.SiteList .site .circle { pointer-events: none; position: absolute; margin-top: 17px; margin-left: 27px; font-size: 12px; font-family: Verdana; }
+.SiteList .site .inner { color: #C2CBDB; text-decoration: none; display: block; padding: 15px 25px; padding-left: 45px; transition: all 0.3s; white-space: normal; }
+.SiteList .site .inner:hover { background-color: rgba(173,136,183,0.08); transition: none; color: white }
+.SiteList .site .inner:active, .SiteList .site .inner:focus { background-color: rgba(173,136,183,0.2); transition: none; color: white; outline: none }
+.SiteList .site .inner .title { max-width: 157px; overflow: hidden; display: inline-block; white-space: nowrap; text-overflow: ellipsis; margin-bottom: -4px }
+.SiteList .site .inner .details {
+	float: right; display: inline; font-size: 11px; text-transform: uppercase; line-height: 23px;
+	opacity: 0.8; background-color: #17161F; padding: 2px 10px; margin-top: -4px; border-radius: 16px;
+}
+.SiteList .site .inner .details .modified { opacity: 0.6 }
+.SiteList .site.modified-lastday .inner .details .modified { opacity: 1 }
+.SiteList .site .settings {
+	position: absolute; padding: 12px; right: 0px; top: -1px; color: white; text-decoration: none; opacity: 0; font-size: 22px
+}
+.SiteList .site .message {
+	border-radius: 20px; position: absolute; top: 13px; font-size: 11px; opacity: 0; transition: all 0.3s ease-in-out; transition-delay: 0.1s; white-space: nowrap;
+	text-transform: uppercase; padding: 5px 0px; background-color: #7DA1BF; color: white; max-width: 0px; overflow: hidden; height: 23px; box-sizing: border-box; /* af3bff */
+	display: inline-block; margin-left: 5px; z-index: 99;
+}
+
+.SiteList .site.working { background: transparent url(../img/loading-circle.gif) no-repeat 22px; backface-visibility: hidden; }
+.SiteList .site .message.done { background-color: #26c281 }
+.SiteList .site .message.error { background-color: #3C364F; color: #D5D4D9; }
+.SiteList .site .message.visible { padding: 5px 10px; opacity: 1; max-width: 140px; box-shadow: 7px 0px 15px #2F2A3F; }
+.SiteList .site:not(:hover) .message.collapsed { background-color: transparent; color: transparent; max-width: 15px; box-shadow: none }
+.SiteList .site .message.collapsed:before {
+	content: "\01F514"; display: block; color: #99A0AF; margin-top: -2px; margin-left: -3px; position: absolute;
+	transition: all 0.3s ease-in; transition-delay: 0.1s; font-family: Arial, Helvetica, 'Segoe UI Symbol', "Times", "Times New Roman", "serif", "sans-serif", "EmojiSymbols";
+}
+.SiteList .site:hover .message.collapsed:before { opacity: 0; transform: scale(2); }
+
+.SiteList .site:hover .settings { opacity: 0.5; transition: none }
+.SiteList .site .settings:hover { opacity: 1; transition: none }
+.SiteList .menu { left: 99%; top: auto; white-space: nowrap; }
+.SiteList .menu-item { font-weight: lighter }
+
+.SiteList.more .site .settings { display: none }
+.SiteList.more .site .details { display: none }
+.SiteList.more .site .details.demo { display: inline; background-color: #8041f1; color: white; }
+
+.SiteList.needaction .site { background-color: rgba(255, 238, 59, 0.06) }
+.SiteList.needaction .site .details { display: none }
+.SiteList.needaction .site .details.needaction {
+	display: inherit; color: black; text-decoration: none; background-color: #f1de3b; border-radius: 3px; border-bottom: 2px solid #b1a74b; opacity: 1;
+}
+.SiteList.needaction .site .details.needaction:hover { background-color: #fcff2b; transition: none !important }
+.SiteList.needaction .site .details.needaction:active { transform: translateY(1px); transition: none }
+
+.site-list-more {
+	display: block; text-align: center; text-transform: uppercase; color: #AAA; padding-top: 15px;
+	padding-bottom: 8px; font-size: 11px; box-shadow: inset 0px 17px 35px -15px #21212b; letter-spacing: 1px;
+}

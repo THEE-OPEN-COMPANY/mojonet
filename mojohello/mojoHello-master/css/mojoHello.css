@@ -1,0 +1,62 @@
+body { background-color: #EDF2F5; font-family: Roboto, 'Segoe UI', Arial, 'Helvetica Neue'; margin: 0px; padding: 0px; backface-visibility: hidden; height: 100%; position: absolute; width: 100%; overflow-x: hidden; height: 15000px; -webkit-font-smoothing: subpixel-antialiased; overscroll-behavior-y: none; }
+body.loaded { height: 100%; overflow: auto }
+h1, h2, h3, h4 { font-family: 'Roboto', Arial, sans-serif; font-weight: 200; font-size: 30px; margin: 0px; padding: 0px }
+h1 { font-family: 'Text Me One', sans-serif }
+h3 a, h2 a { color: white; text-decoration: none; }
+a { color: #9760F9 }
+a:hover { text-decoration: none }
+input::placeholder { color: rgba(255, 255, 255, 0.3) }
+
+.link { background-color: transparent; outline: 5px solid transparent; transition: all 0.3s }
+.link:active { background-color: #EFEFEF; outline: 5px solid #EFEFEF; transition: none }
+
+.servedby { background-color: #AF3BFF; display: inline-block; padding: 10px; margin-left: -25px; color: white }
+.head, .topright { display: none }
+
+.emoji { font-family: "Segoe UI Symbol", "Symbola", "EmojiSymbols"; }
+
+/* Bottom */
+
+.bottom {
+	position: relative; z-index: 2; bottom: 0px; color: #C2CBDB; padding: 25px; margin-top: -65px; height: 65px; box-sizing: border-box;
+	font-size: 11px; text-transform: uppercase; opacity: 0.6; font-family: monospace; overflow: hidden; transition: 0.3s all;
+}
+.bottom:hover { opacity: 0.9 }
+.bottom a { color: #C2CBDB; transition: 0.3s all; padding: 5px; margin: 2px }
+.bottom a:hover { background-color: #413254; transition: none; color: white }
+
+.heart { color: #af3bff; font-family: Verdana; }
+
+/* Pages */
+
+#SiteList { transition: all 0.3s; height: 100%; float: left; padding-bottom: 230px; margin-top: 30px; }
+#SiteList .SiteList { width: 400px }
+#SiteList .details { transition: all 0.6s }
+#FeedList { transition: all 0.3s; height: 100%; }
+.PageFiles-container, .PageStats-container { width: 0px; float: left; }
+#PageFiles, #PageStats { transition: all 0.3s; opacity: 1; width: 100%; width: 100vw; transform: none; max-height: 100%; padding-right: 10px; box-sizing: border-box; padding-bottom: 50px; }
+#PageFiles .files { transition: all 0.3s; opacity: 1; transform: none }
+.left { transition: 0.6s all cubic-bezier(0.785, 0.135, 0.15, 0.86), z-index 0s; overflow: hidden; }
+body.changing { overflow-y: scroll; }
+
+/* PageSites */
+body.changing .left { z-index: 1 !important; }
+#BodySites .left { z-index: 0; }
+#BodySites #PageStats, #BodyFiles #PageStats, body.changing #PageStats { opacity: 0; transform: translateY(30px); pointer-events: none; overflow: hidden; }
+#BodySites #PageFiles, #BodyStats #PageFiles, body.changing #PageFiles { opacity: 0; transform: translateY(30px); pointer-events: none; overflow: hidden; }
+#BodySites #PageFiles, #BodyStats #PageFiles { max-height: 0px }
+#BodySites #PageStats, #BodyFiles #PageStats { max-height: 0px }
+#BodySites #PageFiles .files, #BodyStats #PageFiles .files, body.changing #PageFiles .files { opacity: 0; transform: translateY(30px); pointer-events: none; }
+
+/* PageFiles */
+#BodyFiles #SiteList, #BodyStats #SiteList { opacity: 0; visibility: hidden; transform: translateX(-20px); height: 0px; pointer-events: none; }
+#BodyFiles #SiteList .details, #BodyStats #SiteList .details { transform: translateX(180px); }
+#BodyFiles #FeedList, #BodyStats #FeedList { visibility: hidden; height: 0px; pointer-events: none; overflow: hidden }
+#BodyFiles #Head .settings, #BodyStats #Head .settings { opacity: 0; visibility: hidden; overflow: hidden }
+#BodyFiles .left, #BodyStats .left { width: 100%; background-image: linear-gradient(220deg, #372d56 0px, #162761 2000px); }
+#BodyFiles .left .logo, #BodyStats .left .logo { background-color: #162150 }
+#BodyFiles .right, #BodyStats .right { height: 0px }
+
+/* PageStats */
+#BodyStats .left { /*background-image: linear-gradient(60deg, #272a38 0px, #1E2527 1260px);*/ min-height: 1260px; background-image: linear-gradient(60deg, #442f40 0px, #12252b 1260px) }
+#BodyStats .left .logo { background-color: rgba(0,0,0,0) }
