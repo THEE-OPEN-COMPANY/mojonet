@@ -29,7 +29,7 @@ class TopicList extends Class
 
 		# Show create new topic form
 		$(".topic-new-link").on "click", =>
-			if Page.site_info.address == "1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT"
+			if Page.site_info.address == ""
 				$(".topmenu").addClass("highlight")
 				$(".topic-new .message").css("display", "block")
 			$(".topic-new").fancySlideDown()
@@ -432,7 +432,7 @@ class TopicList extends Class
 				"added": Time.timestamp()
 			}
 			# Check Chinese characters
-			if Page.site_info.address == "1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT" and (title + body).match(/[\u3400-\u9FBF]/)
+			if Page.site_info.address == "" and (title + body).match(/[\u3400-\u9FBF]/)
 				topic.parent_topic_uri = "10_1J3rJ8ecnwH2EPYa6MrgZttBNc61ACFiCj"  # Auto create topic in separate sub-topic
 
 			if @parent_topic_uri then topic.parent_topic_uri = @parent_topic_uri

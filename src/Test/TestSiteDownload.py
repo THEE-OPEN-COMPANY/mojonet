@@ -152,31 +152,31 @@ class TestSiteDownload:
             "bad_files"]
 
         assert not bad_files
-        assert "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json" in site_temp.content_manager.contents
+        assert "data/users//content.json" in site_temp.content_manager.contents
         assert site_temp.storage.isFile(
-            "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json")
+            "data/users//content.json")
         assert len(list(site_temp.storage.query("SELECT * FROM comment"))) == 2
 
         # Add archived data
         assert "archived" not in site.content_manager.contents[
             "data/users/content.json"]["user_contents"]
         assert not site.content_manager.isArchived(
-            "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json", time.time()-1)
+            "data/users//content.json", time.time()-1)
 
         site.content_manager.contents["data/users/content.json"]["user_contents"]["archived"] = {
-            "1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q": time.time()}
+            "": time.time()}
         site.content_manager.sign(
             "data/users/content.json", privatekey="5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv")
 
         date_archived = site.content_manager.contents["data/users/content.json"][
-            "user_contents"]["archived"]["1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q"]
+            "user_contents"]["archived"][""]
         assert site.content_manager.isArchived(
-            "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json", date_archived-1)
+            "data/users//content.json", date_archived-1)
         assert site.content_manager.isArchived(
-            "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json", date_archived)
+            "data/users//content.json", date_archived)
         # Allow user to update archived data later
         assert not site.content_manager.isArchived(
-            "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json", date_archived+1)
+            "data/users//content.json", date_archived+1)
 
         # Push archived update
         assert not "archived" in site_temp.content_manager.contents[
@@ -189,12 +189,12 @@ class TestSiteDownload:
         # The archived content should disappear from remote client
         assert "archived" in site_temp.content_manager.contents[
             "data/users/content.json"]["user_contents"]
-        assert "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json" not in site_temp.content_manager.contents
+        assert "data/users//content.json" not in site_temp.content_manager.contents
         assert not site_temp.storage.isDir(
-            "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q")
+            "data/users/")
         assert len(list(site_temp.storage.query("SELECT * FROM comment"))) == 1
         assert len(list(site_temp.storage.query(
-            "SELECT * FROM json WHERE directory LIKE '%1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q%'"))) == 0
+            "SELECT * FROM json WHERE directory LIKE '%%'"))) == 0
 
         assert site_temp.storage.deleteFiles()
         [connection.close() for connection in file_server.connections]
@@ -217,19 +217,19 @@ class TestSiteDownload:
             "bad_files"]
 
         assert not bad_files
-        assert "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json" in site_temp.content_manager.contents
+        assert "data/users//content.json" in site_temp.content_manager.contents
         assert site_temp.storage.isFile(
-            "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json")
+            "data/users//content.json")
         assert len(list(site_temp.storage.query("SELECT * FROM comment"))) == 2
 
         # Add archived data
         assert not "archived_before" in site.content_manager.contents[
             "data/users/content.json"]["user_contents"]
         assert not site.content_manager.isArchived(
-            "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json", time.time()-1)
+            "data/users//content.json", time.time()-1)
 
         content_modification_time = site.content_manager.contents[
-            "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json"]["modified"]
+            "data/users//content.json"]["modified"]
         site.content_manager.contents["data/users/content.json"]["user_contents"]["archived_before"] = content_modification_time
         site.content_manager.sign(
             "data/users/content.json", privatekey="5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv")
@@ -237,12 +237,12 @@ class TestSiteDownload:
         date_archived = site.content_manager.contents[
             "data/users/content.json"]["user_contents"]["archived_before"]
         assert site.content_manager.isArchived(
-            "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json", date_archived-1)
+            "data/users//content.json", date_archived-1)
         assert site.content_manager.isArchived(
-            "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json", date_archived)
+            "data/users//content.json", date_archived)
         # Allow user to update archived data later
         assert not site.content_manager.isArchived(
-            "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json", date_archived+1)
+            "data/users//content.json", date_archived+1)
 
         # Push archived update
         assert not "archived_before" in site_temp.content_manager.contents[
@@ -255,12 +255,12 @@ class TestSiteDownload:
         # The archived content should disappear from remote client
         assert "archived_before" in site_temp.content_manager.contents[
             "data/users/content.json"]["user_contents"]
-        assert "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q/content.json" not in site_temp.content_manager.contents
+        assert "data/users//content.json" not in site_temp.content_manager.contents
         assert not site_temp.storage.isDir(
-            "data/users/1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q")
+            "data/users/")
         assert len(list(site_temp.storage.query("SELECT * FROM comment"))) == 1
         assert len(list(site_temp.storage.query(
-            "SELECT * FROM json WHERE directory LIKE '%1C5sgvWaSgfaTpV5kjBCnCiKtENNMYo69q%'"))) == 0
+            "SELECT * FROM json WHERE directory LIKE '%%'"))) == 0
 
         assert site_temp.storage.deleteFiles()
         [connection.close() for connection in file_server.connections]
@@ -301,9 +301,9 @@ class TestSiteDownload:
 
         # Optional user file
         assert not site_temp.storage.isFile(
-            "data/users/1CjfbrbwtP8Y2QjPy12vpTATkUT7oSiPQ9/peanut-butter-jelly-time.gif")
+            "data/users//peanut-butter-jelly-time.gif")
         optional_file_info = site_temp.content_manager.getFileInfo(
-            "data/users/1CjfbrbwtP8Y2QjPy12vpTATkUT7oSiPQ9/peanut-butter-jelly-time.gif"
+            "data/users//peanut-butter-jelly-time.gif"
         )
         assert site.content_manager.hashfield.hasHash(
             optional_file_info["sha512"])
@@ -311,9 +311,9 @@ class TestSiteDownload:
             optional_file_info["sha512"])
 
         site_temp.needFile(
-            "data/users/1CjfbrbwtP8Y2QjPy12vpTATkUT7oSiPQ9/peanut-butter-jelly-time.gif")
+            "data/users//peanut-butter-jelly-time.gif")
         assert site_temp.storage.isFile(
-            "data/users/1CjfbrbwtP8Y2QjPy12vpTATkUT7oSiPQ9/peanut-butter-jelly-time.gif")
+            "data/users//peanut-butter-jelly-time.gif")
         assert site_temp.content_manager.hashfield.hasHash(
             optional_file_info["sha512"])
 
@@ -327,7 +327,7 @@ class TestSiteDownload:
         file_server.sites[site.address] = site
 
         # Init full source server (has optional files)
-        site_full = Site("1TeSTvb4w2PWE81S2rEELgmX2GCCExQGT")
+        site_full = Site("")
         file_server_full = FileServer(file_server.ip, 1546)
         site_full.connection_server = file_server_full
 
@@ -346,7 +346,7 @@ class TestSiteDownload:
         assert hashfield
         assert site_full.storage.isFile("data/optional.txt")
         assert site_full.storage.isFile(
-            "data/users/1CjfbrbwtP8Y2QjPy12vpTATkUT7oSiPQ9/peanut-butter-jelly-time.gif")
+            "data/users//peanut-butter-jelly-time.gif")
         assert len(site_full_peer.hashfield) == 8
 
         # Remove hashes from source server
@@ -366,10 +366,10 @@ class TestSiteDownload:
         optional_file_info = site_temp.content_manager.getFileInfo(
             "data/optional.txt")
         optional_file_info2 = site_temp.content_manager.getFileInfo(
-            "data/users/1CjfbrbwtP8Y2QjPy12vpTATkUT7oSiPQ9/peanut-butter-jelly-time.gif")
+            "data/users//peanut-butter-jelly-time.gif")
         assert not site_temp.storage.isFile("data/optional.txt")
         assert not site_temp.storage.isFile(
-            "data/users/1CjfbrbwtP8Y2QjPy12vpTATkUT7oSiPQ9/peanut-butter-jelly-time.gif")
+            "data/users//peanut-butter-jelly-time.gif")
         assert not site.content_manager.hashfield.hasHash(
             optional_file_info["sha512"])  # Source server don't know he has the file
         assert not site.content_manager.hashfield.hasHash(
@@ -390,7 +390,7 @@ class TestSiteDownload:
             threads.append(site_temp.needFile(
                 "data/optional.txt", blocking=False))
             threads.append(site_temp.needFile(
-                "data/users/1CjfbrbwtP8Y2QjPy12vpTATkUT7oSiPQ9/peanut-butter-jelly-time.gif", blocking=False))
+                "data/users//peanut-butter-jelly-time.gif", blocking=False))
             gevent.joinall(threads)
 
             # findHashids should call only once
@@ -399,7 +399,7 @@ class TestSiteDownload:
 
         assert site_temp.storage.isFile("data/optional.txt")
         assert site_temp.storage.isFile(
-            "data/users/1CjfbrbwtP8Y2QjPy12vpTATkUT7oSiPQ9/peanut-butter-jelly-time.gif")
+            "data/users//peanut-butter-jelly-time.gif")
 
         assert site_temp.storage.deleteFiles()
         file_server_full.stop()
@@ -517,7 +517,7 @@ class TestSiteDownload:
         assert site_temp.download(
             blind_includes=True, retry_bad_files=False).get(timeout=10)
         assert list(site_temp.bad_files.keys()) == [
-            "data/users/1J6UrZMkarjVg5ax9W4qThir3BFUikbW6C/content.json"]
+            "data/users//content.json"]
 
         # Update file
         data_original = site.storage.open("data/data.json").read()

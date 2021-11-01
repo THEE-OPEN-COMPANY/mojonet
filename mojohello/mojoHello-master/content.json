@@ -1,116 +1,49 @@
 {
- "address": "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D",
+ "address": "",
  "background-color": "#F2F4F6",
  "background-color-dark": "#383F46",
  "description": "New mojoHello",
  "files": {
   "chartjs/chart.bundle.min.js": {
-   "sha512": "f8b84bec9157a76d7fa620998264edf84d7efe94ce472f6c3c60268346d4081a",
+   "sha512": "   ",
    "size": 208221
   },
   "css/all.css": {
-   "sha512": "d5ae233bf85e908715eb301c2ed569fa1a0903cc08522d67d49ebda3e40ad4e6",
+   "sha512": "",
    "size": 235714
   },
   "img/loading-circle.gif": {
-   "sha512": "339baf1bccb9b80ae29c2493e73b40cf0588c96fc095954b475dea0538aaa929",
+   "sha512": "",
    "size": 2346
   
   },
   "img/logo_big.png": {
-   "sha512": "81884a41736056c54274a7332f233b872fdf9e298b6dda91d655cc7105221682",
+   "sha512": "",
    "size": 11379
   },
   "img/world.png": {
-   "sha512": "2741b5107146c26ec6ff4de4f5b2219c848cbd7405e03718c2dca2b2c0acc15f",
+   "sha512": "",
    "size": 13735
   },
   "index.html": {
-   "sha512": "09a6f500faf2fc962e493505d627d5df9259cb1427c3afd4537cdf1ab9741d6a",
+   "sha512": "",
    "size": 1330
   },
   "js/all.js": {
-   "sha512": "62a8401380dc1095862622f6a39be910d330181e65ce3defb8c41d8a5613b37e",
+   "sha512": "",
    "size": 294251
-  },
-  "languages/da.json": {
-   "sha512": "a11d1da29b791c2de8a926d5c9177011dc00ab569a2b1fc8b435e5615658827f",
-   "size": 4011
-  },
-  "languages/es.json": {
-   "sha512": "1281c97a6319d13aa0896cbadc8d5c33c465b54fd8b7701515ceefc64a1ebb0e",
-   "size": 4354
-  },
-  "languages/fr.json": {
-   "sha512": "d1aae78afcdc6a93d3923abcb2f6d4738570452d8f79beea33b8476179b07579",
-   "size": 4354
-  },
-  "languages/hu.json": {
-   "sha512": "2d9a53a395a590273c8a20dfb2bc2d4db74aadbcae6dcf5a8cf1872ead9b25b8",
-   "size": 4454
-  },
-  "languages/it.json": {
-   "sha512": "a536f8757cc7787f2c5dfb94b18532ba1aee9adc851b97a4bfc372e40063aaba",
-   "size": 4665
-  },
-  "languages/jp.json": {
-   "sha512": "ad621ae4090da223abbca967c87174d13f3819e9dabc193061e6b9fccd8575b6",
-   "size": 4737
-  },
-  "languages/nl.json": {
-   "sha512": "49ce3f99d856bb5ff4c495676c9bfc70de9343e6c1a4d61e3c0195f6835ff1dd",
-   "size": 4553
-  },
-  "languages/pl.json": {
-   "sha512": "7af9a32eb1cc223b3065fff2591c99a44f33a38fd035c75737108ffb524e62b8",
-   "size": 4718
-  },
-  "languages/pt-br.json": {
-   "sha512": "07c549e2da7f6a793930bf2d0f98ca6c02d441872c7f911fd3efbb0dce23ea9e",
-   "size": 8919
-  },
-  "languages/pt.json": {
-   "sha512": "3c2e80fc40cca01f289050337c022d74eb28b8b8b5c0bcd8261ba132d974b3d5",
-   "size": 4322
-  },
-  "languages/ru.json": {
-   "sha512": "e6b9c5f1c465d9d1f514cc2f245c09a640bd680c41a24001ac9d79756366c121",
-   "size": 5521
-  },
-  "languages/sk.json": {
-   "sha512": "e443c8696ec967fe3fa8facb73d30a3c19f0fb8845765fd0169d7cf2fa1425f8",
-   "size": 6385
-  },
-  "languages/sl.json": {
-   "sha512": "722398f7c26146a1ac79830b21c9633aacfd3319dcbe009feab4a1915c5ebe2f",
-   "size": 4266
-  },
-  "languages/tr.json": {
-   "sha512": "7b6a8eb77e686f2228f94198eb1aad95b87e79987ffa455c4e88ed7e34777f8f",
-   "size": 4371
-  },
-  "languages/uk.json": {
-   "sha512": "26b2b1a0a14cc9277335cc054b2aa1082407cc15d8d25c91381d51c75cdba04d",
-   "size": 7738
-  },
-  "languages/zh-tw.json": {
-   "sha512": "6baee6b1b7040ae07966d8546de62285331d94c3540a165a70dedf2abc52608a",
-   "size": 6746
-  },
-  "languages/zh.json": {
-   "sha512": "13885bc1b1c368788ee7d311f21b75e667329cd5e64142a12eb6c3eb4c8ffe83",
-   "size": 9117
+
   },
   "template-new/content.json-default": {
-   "sha512": "7e6068f0105c5f6a0e1237baa1dfbbb353b40042c7ccedc306c6f88a446469aa",
+   "sha512": "",
    "size": 474
   },
   "template-new/index.html": {
-   "sha512": "542f7724432a22ceb8821b4241af4d36cfd81e101b72d425c6c59e148856537e",
+   "sha512": "",
    "size": 1114
   },
   "template-new/js/mojoFrame.js": {
-   "sha512": "ace368eb399ec01f0a1da6e16c8a8b4d1b2e0a432a6f01778c446a5134db0e9c",
+   "sha512": "",
    "size": 3772
   }
  },
@@ -118,9 +51,9 @@
  "inner_path": "content.json",
  "modified": 1568919401,
  "postmessage_nonce_security": true,
- "signers_sign": "HLcq242ZHh4nTexhe6kvkBroycZ1JpF4pjlLGxbhjKAwDAfdCZ/gxUwM9aIN6OrD8K5YqAfvIVlbwkLMB1XSEDo=",
+ "signers_sign": "=",
  "signs": {
-  "1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D": "HFUeuP7s0xwrJHF5o9rDkttqBQPeIHwkq90W9xsUeS6wUzR0he9LBuoysQVO4Wr/jJrv+EX0RhFfTVfoQxQH2OE="
+  "": "="
  },
  "signs_required": 1,
  "title": "mojoHello",

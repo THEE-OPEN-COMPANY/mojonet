@@ -11,7 +11,7 @@ TEST_DATA_PATH = "src/Test/testdata"
 class TestSite:
     def testClone(self, site):
         assert site.storage.directory == TEST_DATA_PATH + \
-            "/1TeSTvb4w2PWE81S2rEELgmX2GCCExQGT"
+            "/"
 
         # Remove old files
         if os.path.isdir(TEST_DATA_PATH + "/159EGD5srUsMP97UpcLy8AtKQbQLK2AbbL"):
@@ -20,7 +20,7 @@ class TestSite:
         assert not os.path.isfile(
             TEST_DATA_PATH + "/159EGD5srUsMP97UpcLy8AtKQbQLK2AbbL/content.json")
 
-        # Clone 1TeSTvb4w2PWE81S2rEELgmX2GCCExQGT to 15E5rhcAUD69WbiYsYARh4YHJ4sLm2JEyc
+        # Clone  to 15E5rhcAUD69WbiYsYARh4YHJ4sLm2JEyc
         new_site = site.clone(
             "159EGD5srUsMP97UpcLy8AtKQbQLK2AbbL", "5JU2p5h3R7B1WrbaEdEDNZR7YHqRLGcjNcqwqVQzX2H4SuNe2ee", address_index=1
         )

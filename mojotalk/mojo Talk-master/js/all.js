@@ -1328,7 +1328,7 @@ jQuery.extend( jQuery.easing,
       this.loadTopics("noanim");
       $(".topic-new-link").on("click", (function(_this) {
         return function() {
-          if (Page.site_info.address === "1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT") {
+          if (Page.site_info.address === "") {
             $(".topmenu").addClass("highlight");
             $(".topic-new .message").css("display", "block");
           }
@@ -1639,7 +1639,7 @@ jQuery.extend( jQuery.easing,
             "body": body,
             "added": Time.timestamp()
           };
-          if (Page.site_info.address === "1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT" && (title + body).match(/[\u3400-\u9FBF]/)) {
+          if (Page.site_info.address === "" && (title + body).match(/[\u3400-\u9FBF]/)) {
             topic.parent_topic_uri = "10_1J3rJ8ecnwH2EPYa6MrgZttBNc61ACFiCj";
           }
           if (_this.parent_topic_uri) {

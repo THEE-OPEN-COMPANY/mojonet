@@ -210,17 +210,17 @@ def site(request):
     RateLimit.queue_db = {}
     RateLimit.called_db = {}
 
-    site = Site("1TeSTvb4w2PWE81S2rEELgmX2GCCExQGT")
+    site = Site("")
 
     # Always use original data
-    assert "1TeSTvb4w2PWE81S2rEELgmX2GCCExQGT" in site.storage.getPath(
+    assert "" in site.storage.getPath(
         "")  # Make sure we dont delete everything
     shutil.rmtree(site.storage.getPath(""), True)
     shutil.copytree(site.storage.getPath(
         "") + "-original", site.storage.getPath(""))
 
     # Add to site manager
-    SiteManager.site_manager.get("1TeSTvb4w2PWE81S2rEELgmX2GCCExQGT")
+    SiteManager.site_manager.get("")
     # Don't try to find peers from the net
     site.announce = mock.MagicMock(return_value=True)
 
@@ -238,10 +238,10 @@ def site(request):
 
     site.greenlet_manager.stopGreenlets()
     # Create new Site object to load content.json files
-    site = Site("1TeSTvb4w2PWE81S2rEELgmX2GCCExQGT")
+    site = Site("")
     if not SiteManager.site_manager.sites:
         SiteManager.site_manager.sites = {}
-    SiteManager.site_manager.sites["1TeSTvb4w2PWE81S2rEELgmX2GCCExQGT"] = site
+    SiteManager.site_manager.sites[""] = site
     site.settings["serving"] = True
     return site
 
@@ -251,7 +251,7 @@ def site_temp(request):
     threads_before = [obj for obj in gc.get_objects(
     ) if isinstance(obj, gevent.Greenlet)]
     with mock.patch("Config.config.data_dir", config.data_dir + "-temp"):
-        site_temp = Site("1TeSTvb4w2PWE81S2rEELgmX2GCCExQGT")
+        site_temp = Site("")
         site_temp.settings["serving"] = True
         # Don't try to find peers from the net
         site_temp.announce = mock.MagicMock(return_value=True)

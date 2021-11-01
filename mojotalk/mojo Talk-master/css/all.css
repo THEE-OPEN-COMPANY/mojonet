@@ -1,6 +1,6 @@
 
 
-/* ---- /1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT/css/Follow.css ---- */
+/* ---- //css/Follow.css ---- */
 
 
 .icon-feed {
@@ -38,7 +38,7 @@
 .feed-follow-show:hover { border: 1px solid white }
 
 
-/* ---- /1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT/css/InlineEditor.css ---- */
+/* ---- //css/InlineEditor.css ---- */
 
 
 /* Editable */
@@ -86,7 +86,7 @@
 
 
 
-/* ---- /1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT/css/Menu.css ---- */
+/* ---- //css/Menu.css ---- */
 
 
 .menu {
@@ -110,7 +110,7 @@
 }
 
 
-/* ---- /1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT/css/mojotalk.css ---- */
+/* ---- //css/mojotalk.css ---- */
 
 
 body { background-color: #F5F5F5; color: #333332; margin: 10px; padding: 0px; font-family: 'Roboto', sans-serif; height: 15000px; overflow: hidden; -webkit-backface-visibility: hidden; -moz-backface-visibility: hidden; -o-backface-visibility: hidden; -ms-backface-visibility: hidden; backface-visibility: hidden ; }
@@ -389,7 +389,7 @@ input.text:focus, textarea:focus { border-color: #5FC0EA; outline: none; backgro
 
 
 
-/* ---- /1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT/css/dark.css ---- */
+/* ---- //css/dark.css ---- */
 
 
 .theme-dark { background-color: #2e2b32; color: #e1e1e1 }
@@ -452,7 +452,7 @@ input.text:focus, textarea:focus { border-color: #5FC0EA; outline: none; backgro
 
 
 
-/* ---- /1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT/css/fonts.css ---- */
+/* ---- //css/fonts.css ---- */
 
 
 /* Base64 encoder: http://www.motobit.com/util/base64-decoder-encoder.asp */
@@ -497,7 +497,7 @@ input.text:focus, textarea:focus { border-color: #5FC0EA; outline: none; backgro
 
 
 
-/* ---- /1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT/css/icons.css ---- */
+/* ---- //css/icons.css ---- */
 
 
 .icon { display: inline-block; vertical-align: text-bottom; background-repeat: no-repeat; }

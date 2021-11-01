@@ -44,7 +44,7 @@ class Text
 	# Convert mojonet html links to relaitve
 	fixHtmlLinks: (text) ->
 		# Fix site links
-		text = text.replace(/href="http:\/\/(127.0.0.1|localhost):43110\/(Me.mojoNetwork.bit|1MeFqFfFFGQfa1J3gJyYYUvb5Lksczq7nH)\/\?/gi, 'href="?')
+		text = text.replace(/href="http:\/\/(127.0.0.1|localhost):43110\/(Me.mojoNetwork.bit|)\/\?/gi, 'href="?')
 		if window.is_proxy
 			text = text.replace(/href="http:\/\/(127.0.0.1|localhost):43110/gi, 'href="http://mojo')
 			text = text.replace(/http:\/\/mojo\/([^\/]+\.bit)/, "http://$1")

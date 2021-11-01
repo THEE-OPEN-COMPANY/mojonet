@@ -68,7 +68,7 @@ class SiteList extends Class
 
 	updateInactiveDemoSites: ->
 		demo_site_rows = [
-			{address: "1TaLkFrMwvbNsooF4ioKAY9EuxTBTjipT", demo: true, content: {title: "mojoTalk", domain: "Talk.mojoNetwork.bit"}, settings: {}}
+			{address: "", demo: true, content: {title: "mojoTalk", domain: "Talk.mojoNetwork.bit"}, settings: {}}
 			{address: "1BLogC9LN4oPDcruNz3qo1ysa133E9AGg8", demo: true, content: {title: "mojoBlog", domain: "Blog.mojoNetwork.bit"}, settings: {}}
 			{address: "1MaiL5gfBM1cyb4a8e3iiL8L5gXmoAJu27", demo: true, content: {title: "mojoMail", domain: "Mail.mojoNetwork.bit"}, settings: {}}
 			{address: "1uPLoaDwKzP6MCGoVzw48r4pxawRBdmQc", demo: true, content: {title: "mojoUp"}, settings: {}}
@@ -76,7 +76,7 @@ class SiteList extends Class
 			{address: "1SiTEs2D3rCBxeMoLHXei2UYqFcxctdwB", demo: true, content: {title: "More @ mojoSites", domain: "Sites.mojoNetwork.bit"}, settings: {}}
 		]
 		if Page.server_info.rev >= 1400
-			demo_site_rows.push {address: "1MeFqFfFFGQfa1J3gJyYYUvb5Lksczq7nH", demo: true, content: {title: "mojoMe", domain: "Me.mojoNetwork.bit"}, settings: {}}
+			demo_site_rows.push {address: "", demo: true, content: {title: "mojoMe", domain: "Me.mojoNetwork.bit"}, settings: {}}
 
 		@inactive_demo_sites = []
 		for site_row in demo_site_rows

@@ -66,7 +66,7 @@ class ConfigPlugin(object):
         group = self.parser.add_argument_group("mojoname plugin")
         group.add_argument(
             "--bit_resolver", help="MojoNet site to resolve .bit domains",
-            default="1Name2NXVi1RDPDgf5617UoW7xA6YrhM9F", metavar="address"
+            default="", metavar="address"
         )
 
         return super(ConfigPlugin, self).createArguments()
