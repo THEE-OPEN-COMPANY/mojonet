@@ -3,12 +3,12 @@
   "ignore": ".*", 
   "modified": 1436226671.535, 
   "signs": {
-    "": "HMS7KltLokl44coJqRBPmGTGVpY48H2nbayXOsCo21J9DtwIUCf47O6WNJdW6WUgObV/NzHr0yiCWey6uDmxlLo="
+    "": ""
   }, 
   "user_contents": {
     "cert_signers": {
-      "mojoid.bit": [ "1iD5ZQJMNXu43w1qLB8sfdHVKppVMduGz" ],
-      "kxoid.bit": [ "12F5SvxoPR128aiudte78h8pY7mobroG6V", "18Mt3CWBpiqJBLsPSu5JxB4B9MeaSwhyJ" ]
+      "mojoid.bit": [ "" ],
+      "kxoid.bit": [ "", "" ]
     }, 
     "permission_rules": {
       ".*": {
