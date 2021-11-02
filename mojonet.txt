@@ -2,3 +2,4 @@
 Decentralized web platform
 using Bitcoin cryptography
 and BitTorrent network.
+We are using https://www.namecoin.org/dot-bit/ so far 
