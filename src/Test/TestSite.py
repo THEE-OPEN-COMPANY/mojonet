@@ -14,19 +14,19 @@ class TestSite:
             "/"
 
         # Remove old files
-        if os.path.isdir(TEST_DATA_PATH + "/159EGD5srUsMP97UpcLy8AtKQbQLK2AbbL"):
+        if os.path.isdir(TEST_DATA_PATH + "/"):
             shutil.rmtree(TEST_DATA_PATH +
-                          "/159EGD5srUsMP97UpcLy8AtKQbQLK2AbbL")
+                          "/")
         assert not os.path.isfile(
-            TEST_DATA_PATH + "/159EGD5srUsMP97UpcLy8AtKQbQLK2AbbL/content.json")
+            TEST_DATA_PATH + "//content.json")
 
-        # Clone  to 15E5rhcAUD69WbiYsYARh4YHJ4sLm2JEyc
+        # Clone  to
         new_site = site.clone(
-            "159EGD5srUsMP97UpcLy8AtKQbQLK2AbbL", "5JU2p5h3R7B1WrbaEdEDNZR7YHqRLGcjNcqwqVQzX2H4SuNe2ee", address_index=1
+            "", "", address_index=1
         )
 
         # Check if clone was successful
-        assert new_site.address == "159EGD5srUsMP97UpcLy8AtKQbQLK2AbbL"
+        assert new_site.address == ""
         assert new_site.storage.isFile("content.json")
         assert new_site.storage.isFile("index.html")
         assert new_site.storage.isFile("data/users/content.json")
@@ -63,7 +63,7 @@ class TestSite:
 
         # Re-clone the site
         site.log.debug("Re-cloning")
-        site.clone("159EGD5srUsMP97UpcLy8AtKQbQLK2AbbL")
+        site.clone("")
 
         assert new_site.storage.loadJson(
             "data/data.json")["title"] == "UpdateTest"
@@ -75,7 +75,7 @@ class TestSite:
         # Delete created files
         new_site.storage.deleteFiles()
         assert not os.path.isdir(
-            TEST_DATA_PATH + "/159EGD5srUsMP97UpcLy8AtKQbQLK2AbbL")
+            TEST_DATA_PATH + "/")
 
         # Delete from site registry
         assert new_site.address in SiteManager.site_manager.sites

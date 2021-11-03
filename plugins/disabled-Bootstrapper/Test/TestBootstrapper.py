@@ -235,7 +235,7 @@ class TestBootstrapper:
     def testAnnounce(self, file_server, tor_manager):
         file_server.tor_manager = tor_manager
         hash1 = hashlib.sha256(b"1Nekos4fiBqfcazyG1bAxdBT5oBvA76Z").digest()
-        hash2 = hashlib.sha256(b"1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr").digest()
+        hash2 = hashlib.sha256(b"").digest()
         peer = Peer("mojo.booth.moe", 443, connection_server=file_server)
         assert peer.request("ping")
         peer = Peer("boot3rdez4rzn36x.onion", 15441,

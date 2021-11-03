@@ -11,7 +11,7 @@ from util.SafeRe import UnsafePatternError
 
 @pytest.mark.usefixtures("resetSettings")
 class TestContent:
-    privatekey = "5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv"
+    privatekey = ""
 
     def testInclude(self, site):
         # Rules defined in parent content.json

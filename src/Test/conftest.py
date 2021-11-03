@@ -169,7 +169,7 @@ def resetSettings(request):
     open("%s/filters.json" % config.data_dir, "w").write("{}")
     open("%s/users.json" % config.data_dir, "w").write("""
         {
-            "15E5rhcAUD69WbiYsYARh4YHJ4sLm2JEyc": {
+            "": {
                 "certs": {},
                 "master_seed": "024bceac1105483d66585d8a60eaf20aa8c3254b0f266e0d626ddb6114e2949a",
                 "sites": {}
@@ -187,7 +187,7 @@ def resetTempSettings(request):
     open("%s/filters.json" % data_dir_temp, "w").write("{}")
     open("%s/users.json" % data_dir_temp, "w").write("""
         {
-            "15E5rhcAUD69WbiYsYARh4YHJ4sLm2JEyc": {
+            "": {
                 "certs": {},
                 "master_seed": "024bceac1105483d66585d8a60eaf20aa8c3254b0f266e0d626ddb6114e2949a",
                 "sites": {}

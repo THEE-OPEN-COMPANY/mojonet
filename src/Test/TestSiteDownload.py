@@ -44,7 +44,7 @@ class TestSiteDownload:
                   site.storage.getPath("data/img/domain-new.png"))
 
         site.content_manager.sign(
-            "content.json", privatekey="5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv")
+            "content.json", privatekey="")
 
         content = site.storage.loadJson("content.json")
         assert "data/img/domain-new.png" in content["files"]
@@ -105,7 +105,7 @@ class TestSiteDownload:
                   site.storage.getPath("data/optional-new.txt"))
 
         site.content_manager.sign(
-            "content.json", privatekey="5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv", remove_missing_optional=True)
+            "content.json", privatekey="", remove_missing_optional=True)
 
         content = site.storage.loadJson("content.json")
         assert "data/optional-new.txt" in content["files_optional"]
@@ -166,7 +166,7 @@ class TestSiteDownload:
         site.content_manager.contents["data/users/content.json"]["user_contents"]["archived"] = {
             "": time.time()}
         site.content_manager.sign(
-            "data/users/content.json", privatekey="5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv")
+            "data/users/content.json", privatekey="")
 
         date_archived = site.content_manager.contents["data/users/content.json"][
             "user_contents"]["archived"][""]
@@ -232,7 +232,7 @@ class TestSiteDownload:
             "data/users//content.json"]["modified"]
         site.content_manager.contents["data/users/content.json"]["user_contents"]["archived_before"] = content_modification_time
         site.content_manager.sign(
-            "data/users/content.json", privatekey="5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv")
+            "data/users/content.json", privatekey="")
 
         date_archived = site.content_manager.contents[
             "data/users/content.json"]["user_contents"]["archived_before"]
@@ -445,7 +445,7 @@ class TestSiteDownload:
         # Publish without patch
         with Spy.Spy(FileRequest, "route") as requests:
             site.content_manager.sign(
-                "content.json", privatekey="5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv")
+                "content.json", privatekey="")
             site.publish()
             time.sleep(0.1)
             site.log.info("Downloading site")
@@ -485,7 +485,7 @@ class TestSiteDownload:
         site.log.info("Publish new data.json with patch")
         with Spy.Spy(FileRequest, "route") as requests:
             site.content_manager.sign(
-                "content.json", privatekey="5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv")
+                "content.json", privatekey="")
 
             event_done = gevent.event.AsyncResult()
             site.publish(diffs=diffs)
@@ -546,7 +546,7 @@ class TestSiteDownload:
         site.log.info("Publish new data.json with patch")
         with Spy.Spy(FileRequest, "route") as requests:
             site.content_manager.sign(
-                "content.json", privatekey="5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv")
+                "content.json", privatekey="")
             # Make it a big content.json
             assert site.storage.getSize("content.json") > 10 * 1024
             site.publish(diffs=diffs)
@@ -602,7 +602,7 @@ class TestSiteDownload:
         site.log.info("Publish new content.json bigger than 10MB")
         with Spy.Spy(FileRequest, "route") as requests:
             site.content_manager.sign(
-                "content.json", privatekey="5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv")
+                "content.json", privatekey="")
             assert site.storage.getSize(
                 "content.json") > 10 * 1024 * 1024  # verify it over 10MB
             time.sleep(0.1)
@@ -638,7 +638,7 @@ class TestSiteDownload:
         site.storage.write("data/img/árvíztűrő.png", b"test")
 
         site.content_manager.sign(
-            "content.json", privatekey="5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv")
+            "content.json", privatekey="")
 
         content = site.storage.loadJson("content.json")
         assert "data/img/árvíztűrő.png" in content["files"]

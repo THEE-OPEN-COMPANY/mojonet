@@ -102,7 +102,7 @@ class TestContentUser:
 
     def testVerifyAddress(self, site):
         # For
-        privatekey = "5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv"
+        privatekey = ""
         user_inner_path = "data/users//content.json"
         data_dict = site.storage.loadJson(user_inner_path)
         users_content = site.content_manager.contents["data/users/content.json"]
@@ -136,7 +136,7 @@ class TestContentUser:
 
     def testVerify(self, site):
         # For
-        privatekey = "5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv"
+        privatekey = ""
         user_inner_path = "data/users//content.json"
         data_dict = site.storage.loadJson(user_inner_path)
         users_content = site.content_manager.contents["data/users/content.json"]
@@ -298,7 +298,7 @@ class TestContentUser:
         site.content_manager.contents["data/users/content.json"]["user_contents"]["permissions"][cert_user_id] = False
 
         # For
-        site_privatekey = "5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv"
+        site_privatekey = ""
         del user_content["signs"]  # Remove signs before signing
         user_content["signs"] = {
             "": CryptBitcoin.sign(json.dumps(user_content, sort_keys=True), site_privatekey)
@@ -417,7 +417,7 @@ class TestContentUser:
 
     def testNewFile(self, site):
         # For
-        privatekey = "5KUh3PvNm5HUWoCfSUfcYvfQ2g3PrRNJWr6Q9eqdBGu23mtMntv"
+        privatekey = ""
         inner_path = "data/users/1NEWrZMkarjVg5ax9W4qThir3BFUikbW6C/content.json"
 
         site.storage.writeJson(inner_path, {"test": "data"})

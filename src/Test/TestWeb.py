@@ -39,28 +39,28 @@ class TestWeb:
         assert "Forbidden" in getUrl("%s/media/./sites.json" % site_url)
         assert "Forbidden" in getUrl("%s/media/../config.py" % site_url)
         assert "Forbidden" in getUrl(
-            "%s/media/1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr/../sites.json" % site_url)
+            "%s/media//../sites.json" % site_url)
         assert "Forbidden" in getUrl(
-            "%s/media/1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr/..//sites.json" % site_url)
+            "%s/media//..//sites.json" % site_url)
         assert "Forbidden" in getUrl(
-            "%s/media/1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr/../../MojoNet.py" % site_url)
+            "%s/media//../../MojoNet.py" % site_url)
 
         assert "Not Found" in getUrl("%s/raw/sites.json" % site_url)
         assert "Forbidden" in getUrl("%s/raw/./sites.json" % site_url)
         assert "Forbidden" in getUrl("%s/raw/../config.py" % site_url)
         assert "Forbidden" in getUrl(
-            "%s/raw/1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr/../sites.json" % site_url)
+            "%s/raw//../sites.json" % site_url)
         assert "Forbidden" in getUrl(
-            "%s/raw/1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr/..//sites.json" % site_url)
+            "%s/raw//..//sites.json" % site_url)
         assert "Forbidden" in getUrl(
-            "%s/raw/1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr/../../MojoNet.py" % site_url)
+            "%s/raw//../../MojoNet.py" % site_url)
 
         assert "Forbidden" in getUrl(
-            "%s/1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr/../sites.json" % site_url)
+            "%s//../sites.json" % site_url)
         assert "Forbidden" in getUrl(
-            "%s/1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr/..//sites.json" % site_url)
+            "%s//..//sites.json" % site_url)
         assert "Forbidden" in getUrl(
-            "%s/1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr/../../MojoNet.py" % site_url)
+            "%s//../../MojoNet.py" % site_url)
 
         assert "Forbidden" in getUrl("%s/content.db" % site_url)
         assert "Forbidden" in getUrl("%s/./users.json" % site_url)
@@ -70,10 +70,10 @@ class TestWeb:
 
     def testLinkSecurity(self, browser, site_url):
         browser.get(
-            "%s/1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr/test/security.html" % site_url)
+            "%s//test/security.html" % site_url)
         WebDriverWait(browser, 10).until(title_is("mojoHello - MojoNet"))
         assert getContextUrl(
-            browser) == "%s/1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr/test/security.html" % site_url
+            browser) == "%s//test/security.html" % site_url
 
         # Switch to inner frame
         browser.switch_to.frame(browser.find_element_by_id("inner-iframe"))
@@ -117,10 +117,10 @@ class TestWeb:
 
     def testRaw(self, browser, site_url):
         browser.get(
-            "%s/raw/1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr/test/security.html" % site_url)
+            "%s/raw//test/security.html" % site_url)
         WebDriverWait(browser, 10).until(title_is("Security tests"))
         assert getContextUrl(
-            browser) == "%s/raw/1EU1tbG9oC1A8jz2ouVwGZyQ5asrNsE4Vr/test/security.html" % site_url
+            browser) == "%s/raw//test/security.html" % site_url
 
         assert browser.find_element_by_id(
             "script_output").text == "Result: Fail"
