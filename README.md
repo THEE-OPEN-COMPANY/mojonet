@@ -1,7 +1,7 @@
 # mojonet powered by https://maua-africa.com/
 
 
-The next browser 
+The next browser.
 
 
 Real-time updated sites
