@@ -5,4 +5,4 @@
 number of visitors.
 2. The visitor checks if its newer than his/her current file.
 3. The visitor downloads the changed files.
-4. Then he/she sends the update to other visitors.
+4. Then he/she sends the update to other visitors...
