@@ -1,0 +1,1 @@
+Namecoin + OpenID = NameID!
