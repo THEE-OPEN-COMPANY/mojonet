@@ -4,7 +4,7 @@
 
 The next browser.
 
-mojoNet is a decentralized web-like network of peer-to-peer users.its built in Python; and is fully open source. Instead of having an IP address, sites are identified by a public key (specifically a bitcoin address). The private key allows the owner of a site to sign and publish changes, which propagate through the network. Sites can be accessed through an ordinary web browser when using the ZeroNet application, which acts as a local webhost for such pages. In addition to using bitcoin cryptography, mojoNet uses trackers from the BitTorrent network to negotiate connections between peers. mojoNet is not anonymous by default, but it supports routing traffic through the Tor network.
+mojoNet is a decentralized web-like network of peer-to-peer users.its built in Python; and is fully open source. Instead of having an IP address, sites are identified by a public key (specifically a bitcoin address). The private key allows the owner of a site to sign and publish changes, which propagate through the network. Sites can be accessed through an ordinary web browser when using the mojoNet application, which acts as a local webhost for such pages. In addition to using bitcoin cryptography, mojoNet uses trackers from the BitTorrent network to negotiate connections between peers. mojoNet is not anonymous by default, but it supports routing traffic through the Tor network.
 
 The mojoNet website and bittorrent tracker are blocked in mainland China. Despite the censorship, however, it's still possible to access mojoNet from behind the Great Firewall of China, even over Tor, by bootstrapping over Meek, and connecting to peers directly.
 
