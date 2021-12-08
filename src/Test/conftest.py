@@ -63,7 +63,8 @@ if sys.platform == "win32":
     CHROMEDRIVER_PATH = "tools/chrome/chromedriver.exe"
 else:
     CHROMEDRIVER_PATH = "chromedriver"
-SITE_URL = "http://127.0.0.1:43110"
+SITE_URL = "http://127.0.0.1:43110"# does not work to be fixed#
+
 
 TEST_DATA_PATH = 'src/Test/testdata'
 # External modules directory
