@@ -1,5 +1,0 @@
-# mojotalk
-
-Decentralized forum demo.
-
-
