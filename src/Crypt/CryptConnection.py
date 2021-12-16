@@ -60,7 +60,7 @@ class CryptConnectionManager:
         if hasattr(ssl, "PROTOCOL_TLS"):
             protocol = ssl.PROTOCOL_TLS
         else:
-            protocol = ssl.PROTOCOL_TLSv1_2
+            protocol = ssl.PROTOCOL_TLSv1_3
         self.context_client = ssl.SSLContext(protocol)
         self.context_client.check_hostname = False
         self.context_client.verify_mode = ssl.CERT_NONE
