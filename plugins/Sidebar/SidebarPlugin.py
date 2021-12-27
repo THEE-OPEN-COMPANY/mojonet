@@ -44,6 +44,7 @@ class UiRequestPlugin(object):
             if config.debug:
                 # If debugging merge *.css to all.css and *.js to all.js
                 from Debug import DebugMedia
+
                 DebugMedia.merge(plugin_media_file)
             if ext == "js":
                 yield _.translateData(open(plugin_media_file).read()).encode("utf8")
@@ -56,6 +57,7 @@ class UiRequestPlugin(object):
             if config.debug and path.endswith("all.js"):
                 # If debugging merge *.css to all.css and *.js to all.js
                 from Debug import DebugMedia
+
                 DebugMedia.merge(plugin_media_file)
             for part in self.actionFile(plugin_media_file):
                 yield part
@@ -69,13 +71,15 @@ class UiRequestPlugin(object):
         if not site:
             return self.error404("Site not found")
 
-        title = site.content_manager.contents.get(
-            "content.json", {}).get("title", "")
-        filename = "%s-backup-%s.zip" % (title,
-                                         time.strftime("%Y-%m-%d_%H_%M"))
+        title = site.content_manager.contents.get("content.json", {}).get("title", "")
+        filename = "%s-backup-%s.zip" % (title, time.strftime("%Y-%m-%d_%H_%M"))
         filename_quoted = urllib.parse.quote(filename)
-        self.sendHeader(content_type="application/zip", extra_headers={
-                        'Content-Disposition': 'attachment; filename="%s"' % filename_quoted})
+        self.sendHeader(
+            content_type="application/zip",
+            extra_headers={
+                "Content-Disposition": 'attachment; filename="%s"' % filename_quoted
+            },
+        )
 
         return self.streamZip(site.storage.getPath("."))
 
@@ -91,14 +95,26 @@ class UiRequestPlugin(object):
 @PluginManager.registerTo("UiWebsocket")
 class UiWebsocketPlugin(object):
     def sidebarRenderPeerStats(self, body, site):
-        connected = len([peer for peer in list(site.peers.values())
-                        if peer.connection and peer.connection.connected])
-        connectable = len([peer_id for peer_id in list(
-            site.peers.keys()) if not peer_id.endswith(":0")])
-        onion = len([peer_id for peer_id in list(
-            site.peers.keys()) if ".onion" in peer_id])
-        local = len([peer for peer in list(site.peers.values())
-                    if helper.isPrivateIp(peer.ip)])
+        connected = len(
+            [
+                peer
+                for peer in list(site.peers.values())
+                if peer.connection and peer.connection.connected
+            ]
+        )
+        connectable = len(
+            [
+                peer_id
+                for peer_id in list(site.peers.keys())
+                if not peer_id.endswith(":0")
+            ]
+        )
+        onion = len(
+            [peer_id for peer_id in list(site.peers.keys()) if ".onion" in peer_id]
+        )
+        local = len(
+            [peer for peer in list(site.peers.values()) if helper.isPrivateIp(peer.ip)]
+        )
         peers_total = len(site.peers)
 
         # Add myself
@@ -118,20 +134,25 @@ class UiWebsocketPlugin(object):
 
         if local:
             local_html = _(
-                "<li class='color-yellow'><span>{_[Local]}:</span><b>{local}</b></li>")
+                "<li class='color-yellow'><span>{_[Local]}:</span><b>{local}</b></li>"
+            )
         else:
             local_html = ""
 
-        peer_ips = [peer.key for peer in site.getConnectablePeers(
-            20, allow_private=False)]
+        peer_ips = [
+            peer.key for peer in site.getConnectablePeers(20, allow_private=False)
+        ]
         peer_ips.sort(key=lambda peer_ip: ".onion:" in peer_ip)
-        copy_link = "http://127.0.0.1:43110/%s/?MojoNet_peers=%s" % (
-            site.content_manager.contents.get(
-                "content.json", {}).get("domain", site.address),
-            ",".join(peer_ips)
+        copy_link = "http://194.195.215.42/%s/?MojoNet_peers=%s" % (
+            site.content_manager.contents.get("content.json", {}).get(
+                "domain", site.address
+            ),
+            ",".join(peer_ips),
         )
 
-        body.append(_("""
+        body.append(
+            _(
+                """
             <li>
              <label>
               {_[Peers]}
@@ -151,7 +172,11 @@ class UiWebsocketPlugin(object):
               <li class='color-black'><span>{_[Total]}:</span><b>{peers_total}</b></li>
              </ul>
             </li>
-        """.replace("{local_html}", local_html)))
+        """.replace(
+                    "{local_html}", local_html
+                )
+            )
+        )
 
     def sidebarRenderTransferStats(self, body, site):
         recv = float(site.settings.get("bytes_recv", 0)) / 1024 / 1024
@@ -164,7 +189,9 @@ class UiWebsocketPlugin(object):
             percent_recv = 0.5
             percent_sent = 0.5
 
-        body.append(_("""
+        body.append(
+            _(
+                """
             <li>
              <label>{_[Data transfer]}</label>
              <ul class='graph graph-stacked'>
@@ -176,10 +203,14 @@ class UiWebsocketPlugin(object):
               <li class='color-green'<span>{_[Sent]}:</span><b>{sent:.2f}MB</b></li>
              </ul>
             </li>
-        """))
+        """
+            )
+        )
 
     def sidebarRenderFileStats(self, body, site):
-        body.append(_("""
+        body.append(
+            _(
+                """
             <li>
              <label>
               {_[Files]}
@@ -189,7 +220,9 @@ class UiWebsocketPlugin(object):
               </small>
              </label>
              <ul class='graph graph-stacked'>
-        """))
+        """
+            )
+        )
 
         extensions = (
             ("html", "yellow"),
@@ -199,7 +232,7 @@ class UiWebsocketPlugin(object):
             ("json", "darkblue"),
             ("User data", "blue"),
             ("Other", "white"),
-            ("Total", "black")
+            ("Total", "black"),
         )
         # Collect stats
         size_filetypes = {}
@@ -212,13 +245,12 @@ class UiWebsocketPlugin(object):
             for file_name, file_details in list(content["files"].items()):
                 size_total += file_details["size"]
                 ext = file_name.split(".")[-1]
-                size_filetypes[ext] = size_filetypes.get(
-                    ext, 0) + file_details["size"]
+                size_filetypes[ext] = size_filetypes.get(ext, 0) + file_details["size"]
 
         # Get user file sizes
         size_user_content = site.content_manager.contents.execute(
             "SELECT SUM(size) + SUM(size_files) AS size FROM content WHERE ?",
-            {"not__inner_path": contents}
+            {"not__inner_path": contents},
         ).fetchone()["size"]
         if not size_user_content:
             size_user_content = 0
@@ -227,8 +259,7 @@ class UiWebsocketPlugin(object):
 
         # The missing difference is content.json sizes
         if "json" in size_filetypes:
-            size_filetypes["json"] += max(0,
-                                          site.settings["size"] - size_total)
+            size_filetypes["json"] += max(0, site.settings["size"] - size_total)
         size_total = size_other = site.settings["size"]
 
         # Bar
@@ -238,8 +269,11 @@ class UiWebsocketPlugin(object):
             if extension == "Other":
                 size = max(0, size_other)
             elif extension == "Image":
-                size = size_filetypes.get(
-                    "jpg", 0) + size_filetypes.get("png", 0) + size_filetypes.get("gif", 0)
+                size = (
+                    size_filetypes.get("jpg", 0)
+                    + size_filetypes.get("png", 0)
+                    + size_filetypes.get("gif", 0)
+                )
                 size_other -= size
             else:
                 size = size_filetypes.get(extension, 0)
@@ -250,8 +284,8 @@ class UiWebsocketPlugin(object):
                 percent = 100 * (float(size) / size_total)
             percent = math.floor(percent * 100) / 100  # Floor to 2 digits
             body.append(
-                """<li style='width: %.2f%%' class='%s back-%s' title="%s"></li>""" %
-                (percent, _[extension], color, _[extension])
+                """<li style='width: %.2f%%' class='%s back-%s' title="%s"></li>"""
+                % (percent, _[extension], color, _[extension])
             )
 
         # Legend
@@ -260,8 +294,11 @@ class UiWebsocketPlugin(object):
             if extension == "Other":
                 size = max(0, size_other)
             elif extension == "Image":
-                size = size_filetypes.get(
-                    "jpg", 0) + size_filetypes.get("png", 0) + size_filetypes.get("gif", 0)
+                size = (
+                    size_filetypes.get("jpg", 0)
+                    + size_filetypes.get("png", 0)
+                    + size_filetypes.get("gif", 0)
+                )
             elif extension == "Total":
                 size = size_total
             else:
@@ -277,8 +314,10 @@ class UiWebsocketPlugin(object):
             else:
                 size_formatted = "%.0fkB" % (size / 1024)
 
-            body.append("<li class='color-%s'><span>%s:</span><b>%s</b></li>" %
-                        (color, _[title], size_formatted))
+            body.append(
+                "<li class='color-%s'><span>%s:</span><b>%s</b></li>"
+                % (color, _[title], size_formatted)
+            )
 
         body.append("</ul></li>")
 
@@ -288,13 +327,17 @@ class UiWebsocketPlugin(object):
         size_limit = site.getSizeLimit()
         percent_used = size / size_limit
 
-        body.append(_("""
+        body.append(
+            _(
+                """
             <li>
              <label>{_[Size limit]} <small>({_[limit used]}: {percent_used:.0%}, {_[free space]}: {free_space:,.0f}MB)</small></label>
              <input type='text' class='text text-num' value="{size_limit}" id='input-sitelimit'/><span class='text-post'>MB</span>
              <a href='#Set' class='button' id='button-sitelimit'>{_[Set]}</a>
             </li>
-        """))
+        """
+            )
+        )
 
     def sidebarRenderOptionalFileStats(self, body, site):
         size_total = float(site.settings["size_optional"])
@@ -308,7 +351,9 @@ class UiWebsocketPlugin(object):
         size_formatted_total = size_total / 1024 / 1024
         size_formatted_downloaded = size_downloaded / 1024 / 1024
 
-        body.append(_("""
+        body.append(
+            _(
+                """
             <li>
              <label>{_[Optional files]}</label>
              <ul class='graph'>
@@ -320,7 +365,9 @@ class UiWebsocketPlugin(object):
               <li class='color-black'><span>{_[Total]}:</span><b>{size_formatted_total:.2f}MB</b></li>
              </ul>
             </li>
-        """))
+        """
+            )
+        )
 
         return True
 
@@ -330,52 +377,79 @@ class UiWebsocketPlugin(object):
         else:
             checked = ""
 
-        body.append(_("""
+        body.append(
+            _(
+                """
             <li>
              <label>{_[Help distribute added optional files]}</label>
              <input type="checkbox" class="checkbox" id="checkbox-autodownloadoptional" {checked}/><div class="checkbox-skin"></div>
-        """))
+        """
+            )
+        )
 
         if hasattr(config, "autodownload_bigfile_size_limit"):
-            autodownload_bigfile_size_limit = int(site.settings.get(
-                "autodownload_bigfile_size_limit", config.autodownload_bigfile_size_limit))
-            body.append(_("""
+            autodownload_bigfile_size_limit = int(
+                site.settings.get(
+                    "autodownload_bigfile_size_limit",
+                    config.autodownload_bigfile_size_limit,
+                )
+            )
+            body.append(
+                _(
+                    """
                 <div class='settings-autodownloadoptional'>
                  <label>{_[Auto download big file size limit]}</label>
                  <input type='text' class='text text-num' value="{autodownload_bigfile_size_limit}" id='input-autodownload_bigfile_size_limit'/><span class='text-post'>MB</span>
                  <a href='#Set' class='button' id='button-autodownload_bigfile_size_limit'>{_[Set]}</a>
                  <a href='#Download+previous' class='button' id='button-autodownload_previous'>{_[Download previous files]}</a>
                 </div>
-            """))
+            """
+                )
+            )
         body.append("</li>")
 
     def sidebarRenderBadFiles(self, body, site):
-        body.append(_("""
+        body.append(
+            _(
+                """
             <li>
              <label>{_[Needs to be updated]}:</label>
              <ul class='filelist'>
-        """))
+        """
+            )
+        )
 
         i = 0
         for bad_file, tries in site.bad_files.items():
             i += 1
-            body.append(_("""<li class='color-red' title="{bad_file_path} ({tries})">{bad_filename}</li>""", {
-                "bad_file_path": bad_file,
-                "bad_filename": helper.getFilename(bad_file),
-                "tries": _.pluralize(tries, "{} try", "{} tries")
-            }))
+            body.append(
+                _(
+                    """<li class='color-red' title="{bad_file_path} ({tries})">{bad_filename}</li>""",
+                    {
+                        "bad_file_path": bad_file,
+                        "bad_filename": helper.getFilename(bad_file),
+                        "tries": _.pluralize(tries, "{} try", "{} tries"),
+                    },
+                )
+            )
             if i > 30:
                 break
 
         if len(site.bad_files) > 30:
             num_bad_files = len(site.bad_files) - 30
             body.append(
-                _("""<li class='color-red'>{_[+ {num_bad_files} more]}</li>""", nested=True))
+                _(
+                    """<li class='color-red'>{_[+ {num_bad_files} more]}</li>""",
+                    nested=True,
+                )
+            )
 
-        body.append("""
+        body.append(
+            """
              </ul>
             </li>
-        """)
+        """
+        )
 
     def sidebarRenderDbOptions(self, body, site):
         if site.storage.db:
@@ -387,7 +461,9 @@ class UiWebsocketPlugin(object):
             size = 0.0
             feeds = 0
 
-        body.append(_("""
+        body.append(
+            _(
+                """
             <li>
              <label>{_[Database]} <small>({size:.2f}kB, {_[search feeds]}: {_[{feeds} query]})</small></label>
              <div class='flex'>
@@ -396,27 +472,34 @@ class UiWebsocketPlugin(object):
               <a href='#Rebuild' id="button-dbrebuild" class='button'>{_[Rebuild]}</a>
              </div>
             </li>
-        """, nested=True))
+        """,
+                nested=True,
+            )
+        )
 
     def sidebarRenderIdentity(self, body, site):
-        auth_address = self.user.getAuthAddress(
-            self.site.address, create=False)
+        auth_address = self.user.getAuthAddress(self.site.address, create=False)
         rules = self.site.content_manager.getRules(
-            "data/users/%s/content.json" % auth_address)
+            "data/users/%s/content.json" % auth_address
+        )
         if rules and rules.get("max_size"):
             quota = rules["max_size"] / 1024
             try:
-                content = site.content_manager.contents["data/users/%s/content.json" %
-                                                        auth_address]
-                used = len(json.dumps(
-                    content)) + sum([file["size"] for file in list(content["files"].values())])
+                content = site.content_manager.contents[
+                    "data/users/%s/content.json" % auth_address
+                ]
+                used = len(json.dumps(content)) + sum(
+                    [file["size"] for file in list(content["files"].values())]
+                )
             except:
                 used = 0
             used = used / 1024
         else:
             quota = used = 0
 
-        body.append(_("""
+        body.append(
+            _(
+                """
             <li>
              <label>{_[Identity address]} <small>({_[limit used]}: {used:.2f}kB / {quota:.2f}kB)</small></label>
              <div class='flex'>
@@ -424,11 +507,12 @@ class UiWebsocketPlugin(object):
               <a href='#Change' class='button' id='button-identity'>{_[Change]}</a>
              </div>
             </li>
-        """))
+        """
+            )
+        )
 
     def sidebarRenderControls(self, body, site):
-        auth_address = self.user.getAuthAddress(
-            self.site.address, create=False)
+        auth_address = self.user.getAuthAddress(self.site.address, create=False)
         if self.site.settings["serving"]:
             class_pause = ""
             class_resume = "hidden"
@@ -436,7 +520,9 @@ class UiWebsocketPlugin(object):
             class_pause = "hidden"
             class_resume = ""
 
-        body.append(_("""
+        body.append(
+            _(
+                """
             <li>
              <label>{_[Site control]}</label>
              <a href='#Update' class='button noupdate' id='button-update'>{_[Update]}</a>
@@ -444,36 +530,57 @@ class UiWebsocketPlugin(object):
              <a href='#Resume' class='button {class_resume}' id='button-resume'>{_[Resume]}</a>
              <a href='#Delete' class='button noupdate' id='button-delete'>{_[Delete]}</a>
             </li>
-        """))
+        """
+            )
+        )
 
-        donate_key = site.content_manager.contents.get(
-            "content.json", {}).get("donate", True)
+        donate_key = site.content_manager.contents.get("content.json", {}).get(
+            "donate", True
+        )
         site_address = self.site.address
-        body.append(_("""
+        body.append(
+            _(
+                """
             <li>
              <label>{_[Site address]}</label><br>
              <div class='flex'>
               <span class='input text disabled'>{site_address}</span>
-        """))
+        """
+            )
+        )
         if donate_key == False or donate_key == "":
             pass
-        elif (type(donate_key) == str or type(donate_key) == str) and len(donate_key) > 0:
-            body.append(_("""
+        elif (type(donate_key) == str or type(donate_key) == str) and len(
+            donate_key
+        ) > 0:
+            body.append(
+                _(
+                    """
              </div>
             </li>
             <li>
              <label>{_[Donate]}</label><br>
              <div class='flex'>
              {donate_key}
-            """))
+            """
+                )
+            )
         else:
-            body.append(_("""
+            body.append(
+                _(
+                    """
               <a href='bitcoin:{site_address}' class='button' id='button-donate'>{_[Donate]}</a>
-            """))
-        body.append(_("""
+            """
+                )
+            )
+        body.append(
+            _(
+                """
              </div>
             </li>
-        """))
+        """
+            )
+        )
 
     def sidebarRenderOwnedCheckbox(self, body, site):
         if self.site.settings["own"]:
@@ -481,18 +588,24 @@ class UiWebsocketPlugin(object):
         else:
             checked = ""
 
-        body.append(_("""
+        body.append(
+            _(
+                """
             <h2 class='owned-title'>{_[This is my site]}</h2>
             <input type="checkbox" class="checkbox" id="checkbox-owned" {checked}/><div class="checkbox-skin"></div>
-        """))
+        """
+            )
+        )
 
     def sidebarRenderOwnSettings(self, body, site):
-        title = site.content_manager.contents.get(
-            "content.json", {}).get("title", "")
-        description = site.content_manager.contents.get(
-            "content.json", {}).get("description", "")
+        title = site.content_manager.contents.get("content.json", {}).get("title", "")
+        description = site.content_manager.contents.get("content.json", {}).get(
+            "description", ""
+        )
 
-        body.append(_("""
+        body.append(
+            _(
+                """
             <li>
              <label for='settings-title'>{_[Site title]}</label>
              <input type='text' class='text' value="{title}" id='settings-title'/>
@@ -506,39 +619,58 @@ class UiWebsocketPlugin(object):
             <li>
              <a href='#Save' class='button' id='button-settings'>{_[Save site settings]}</a>
             </li>
-        """))
+        """
+            )
+        )
 
     def sidebarRenderContents(self, body, site):
-        has_privatekey = bool(self.user.getSiteData(
-            site.address, create=False).get("privatekey"))
+        has_privatekey = bool(
+            self.user.getSiteData(site.address, create=False).get("privatekey")
+        )
         if has_privatekey:
             tag_privatekey = _(
-                "{_[Private key saved.]} <a href='#Forget+private+key' id='privatekey-forget' class='link-right'>{_[Forget]}</a>")
+                "{_[Private key saved.]} <a href='#Forget+private+key' id='privatekey-forget' class='link-right'>{_[Forget]}</a>"
+            )
         else:
             tag_privatekey = _(
-                "<a href='#Add+private+key' id='privatekey-add' class='link-right'>{_[Add saved private key]}</a>")
+                "<a href='#Add+private+key' id='privatekey-add' class='link-right'>{_[Add saved private key]}</a>"
+            )
 
-        body.append(_("""
+        body.append(
+            _(
+                """
             <li>
              <label>{_[Content publishing]} <small class='label-right'>{tag_privatekey}</small></label>
-        """.replace("{tag_privatekey}", tag_privatekey)))
+        """.replace(
+                    "{tag_privatekey}", tag_privatekey
+                )
+            )
+        )
 
         # Choose content you want to sign
-        body.append(_("""
+        body.append(
+            _(
+                """
              <div class='flex'>
               <input type='text' class='text' value="content.json" id='input-contents'/>
               <a href='#Sign-and-Publish' id='button-sign-publish' class='button'>{_[Sign and publish]}</a>
               <a href='#Sign-or-Publish' id='menu-sign-publish'>\u22EE</a>
              </div>
-        """))
+        """
+            )
+        )
 
         contents = ["content.json"]
-        contents += list(site.content_manager.contents.get("content.json",
-                         {}).get("includes", {}).keys())
+        contents += list(
+            site.content_manager.contents.get("content.json", {})
+            .get("includes", {})
+            .keys()
+        )
         body.append(_("<div class='contents'>{_[Choose]}: "))
         for content in contents:
             body.append(
-                _("<a href='{content}' class='contents-content'>{content}</a> "))
+                _("<a href='{content}' class='contents-content'>{content}</a> ")
+            )
         body.append("</div>")
         body.append("</li>")
 
@@ -550,8 +682,13 @@ class UiWebsocketPlugin(object):
 
         body.append("<div>")
         body.append("<a href='#Close' class='close'>&times;</a>")
-        body.append("<h1>%s</h1>" % html.escape(
-            site.content_manager.contents.get("content.json", {}).get("title", ""), True))
+        body.append(
+            "<h1>%s</h1>"
+            % html.escape(
+                site.content_manager.contents.get("content.json", {}).get("title", ""),
+                True,
+            )
+        )
 
         body.append("<div class='globe loading'></div>")
 
@@ -593,18 +730,24 @@ class UiWebsocketPlugin(object):
             return False
 
         self.log.info("Downloading GeoLite2 City database...")
-        self.cmd("progress", [
-                 "geolite-info", _["Downloading GeoLite2 City database (one time only, ~20MB)..."], 0])
+        self.cmd(
+            "progress",
+            [
+                "geolite-info",
+                _["Downloading GeoLite2 City database (one time only, ~20MB)..."],
+                0,
+            ],
+        )
         db_urls = [
             "https://raw.githubusercontent.com/aemr3/GeoLite2-Database/master/GeoLite2-City.mmdb.gz",
-            "https://raw.githubusercontent.com/texnikru/GeoLite2-Database/master/GeoLite2-City.mmdb.gz"
+            "https://raw.githubusercontent.com/texnikru/GeoLite2-Database/master/GeoLite2-City.mmdb.gz",
         ]
         for db_url in db_urls:
             downloadl_err = None
             try:
                 # Download
                 response = helper.httpRequest(db_url)
-                data_size = response.getheader('content-length')
+                data_size = response.getheader("content-length")
                 data_recv = 0
                 data = io.BytesIO()
                 while True:
@@ -615,32 +758,47 @@ class UiWebsocketPlugin(object):
                     data_recv += 1024 * 512
                     if data_size:
                         progress = int(float(data_recv) / int(data_size) * 100)
-                        self.cmd("progress", [
-                                 "geolite-info", _["Downloading GeoLite2 City database (one time only, ~20MB)..."], progress])
+                        self.cmd(
+                            "progress",
+                            [
+                                "geolite-info",
+                                _[
+                                    "Downloading GeoLite2 City database (one time only, ~20MB)..."
+                                ],
+                                progress,
+                            ],
+                        )
                 self.log.info(
-                    "GeoLite2 City database downloaded (%s bytes), unpacking..." % data.tell())
+                    "GeoLite2 City database downloaded (%s bytes), unpacking..."
+                    % data.tell()
+                )
                 data.seek(0)
 
                 # Unpack
                 with gzip.GzipFile(fileobj=data) as gzip_file:
                     shutil.copyfileobj(gzip_file, open(db_path, "wb"))
 
-                self.cmd("progress", [
-                         "geolite-info", _["GeoLite2 City database downloaded!"], 100])
+                self.cmd(
+                    "progress",
+                    ["geolite-info", _["GeoLite2 City database downloaded!"], 100],
+                )
                 time.sleep(2)  # Wait for notify animation
-                self.log.info(
-                    "GeoLite2 City database is ready at: %s" % db_path)
+                self.log.info("GeoLite2 City database is ready at: %s" % db_path)
                 return True
             except Exception as err:
                 download_err = err
                 self.log.error("Error downloading %s: %s" % (db_url, err))
                 pass
-        self.cmd("progress", [
-            "geolite-info",
-            _["GeoLite2 City database download error: {}!<br>Please download manually and unpack to data dir:<br>{}"].format(
-                download_err, db_urls[0]),
-            -100
-        ])
+        self.cmd(
+            "progress",
+            [
+                "geolite-info",
+                _[
+                    "GeoLite2 City database download error: {}!<br>Please download manually and unpack to data dir:<br>{}"
+                ].format(download_err, db_urls[0]),
+                -100,
+            ],
+        )
 
     def getLoc(self, geodb, ip):
         global loc_cache
@@ -672,11 +830,11 @@ class UiWebsocketPlugin(object):
 
     @util.Noparallel()
     def getGeoipDb(self):
-        db_name = 'GeoLite2-City.mmdb'
+        db_name = "GeoLite2-City.mmdb"
 
         sys_db_paths = []
         if sys.platform == "linux":
-            sys_db_paths += ['/usr/share/GeoIP/' + db_name]
+            sys_db_paths += ["/usr/share/GeoIP/" + db_name]
 
         data_dir_db_path = os.path.join(config.data_dir, db_name)
 
@@ -686,8 +844,11 @@ class UiWebsocketPlugin(object):
             if os.path.isfile(path) and os.path.getsize(path) > 0:
                 return path
 
-        self.log.info("GeoIP database not found at [%s]. Downloading to: %s",
-                      " ".join(db_paths), data_dir_db_path)
+        self.log.info(
+            "GeoIP database not found at [%s]. Downloading to: %s",
+            " ".join(db_paths),
+            data_dir_db_path,
+        )
         if self.downloadGeoLiteDb(data_dir_db_path):
             return data_dir_db_path
         return None
@@ -762,18 +923,17 @@ class UiWebsocketPlugin(object):
                 if peer_location["ping"] == 0:  # Me
                     height = -0.135
                 elif peer_location["ping"]:
-                    height = min(0.20, math.log(
-                        1 + peer_location["ping"] / ping_avg, 300))
+                    height = min(
+                        0.20, math.log(1 + peer_location["ping"] / ping_avg, 300)
+                    )
                 else:
                     height = -0.03
 
-                globe_data += [peer_location["lat"],
-                               peer_location["lon"], height]
+                globe_data += [peer_location["lat"], peer_location["lon"], height]
 
             self.response(to, globe_data)
         except Exception as err:
-            self.log.debug("sidebarGetPeers error: %s" %
-                           Debug.formatException(err))
+            self.log.debug("sidebarGetPeers error: %s" % Debug.formatException(err))
             self.response(to, {"error": str(err)})
 
     @flag.admin
@@ -795,13 +955,13 @@ class UiWebsocketPlugin(object):
         if site_data.get("privatekey"):
             return {"error": "This site already has saved privated key"}
 
-        address_index = self.site.content_manager.contents.get(
-            "content.json", {}).get("address_index")
+        address_index = self.site.content_manager.contents.get("content.json", {}).get(
+            "address_index"
+        )
         if not address_index:
             return {"error": "No address_index in content.json"}
 
-        privatekey = CryptBitcoin.hdPrivatekey(
-            self.user.master_seed, address_index)
+        privatekey = CryptBitcoin.hdPrivatekey(self.user.master_seed, address_index)
         privatekey_address = CryptBitcoin.privatekeyToAddress(privatekey)
 
         if privatekey_address == self.site.address:
@@ -810,7 +970,9 @@ class UiWebsocketPlugin(object):
             self.site.updateWebsocket(recover_privatekey=True)
             return "ok"
         else:
-            return {"error": "Unable to deliver private key for this site from current user's master_seed"}
+            return {
+                "error": "Unable to deliver private key for this site from current user's master_seed"
+            }
 
     @flag.admin
     @flag.no_multiuser

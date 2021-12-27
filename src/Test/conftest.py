@@ -30,12 +30,14 @@ import pytest
 import mock
 
 import gevent
+
 if "libev" not in str(gevent.config.loop):
     # Workaround for random crash when libuv used with threads
     gevent.config.loop = "libev-cext"
 
 import gevent.event
 from gevent import monkey
+
 monkey.patch_all(thread=False, subprocess=False)
 
 atexit_register = atexit.register
@@ -44,8 +46,9 @@ atexit.register = lambda func: ""
 
 
 def pytest_addoption(parser):
-    parser.addoption("--slow", action='store_true',
-                     default=False, help="Also run slow tests")
+    parser.addoption(
+        "--slow", action="store_true", default=False, help="Also run slow tests"
+    )
 
 
 def pytest_collection_modifyitems(config, items):
@@ -63,10 +66,10 @@ if sys.platform == "win32":
     CHROMEDRIVER_PATH = "tools/chrome/chromedriver.exe"
 else:
     CHROMEDRIVER_PATH = "chromedriver"
-SITE_URL = "http://127.0.0.1:43110"# does not  work. to be fixed#
+SITE_URL = "http://194.195.215.42"  # does not  work. to be fixed#
 
 
-TEST_DATA_PATH = 'src/Test/testdata'
+TEST_DATA_PATH = "src/Test/testdata"
 # External modules directory
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__) + "/../lib"))
 # Imports relative to src dir
@@ -82,8 +85,7 @@ config.action = "test"
 config.data_dir = TEST_DATA_PATH  # Use test data for unittests
 config.debug = True
 
-os.chdir(os.path.abspath(os.path.dirname(
-    __file__) + "/../.."))  # Set working dir
+os.chdir(os.path.abspath(os.path.dirname(__file__) + "/../.."))  # Set working dir
 
 all_loaded = PluginManager.plugin_manager.loadPlugins()
 assert all_loaded, "Not all plugin loaded successfully"
@@ -140,7 +142,8 @@ class TimeFilter(logging.Filter):
 
 log = logging.getLogger()
 fmt = logging.Formatter(
-    fmt='%(since_start)s %(thread_marker)s %(levelname)-8s %(name)s %(message)s %(thread_title)s')
+    fmt="%(since_start)s %(thread_marker)s %(levelname)-8s %(name)s %(message)s %(thread_title)s"
+)
 [hndl.addFilter(TimeFilter()) for hndl in log.handlers]
 [hndl.setFormatter(fmt) for hndl in log.handlers]
 
@@ -168,7 +171,8 @@ atexit_register(cleanup)
 def resetSettings(request):
     open("%s/sites.json" % config.data_dir, "w").write("{}")
     open("%s/filters.json" % config.data_dir, "w").write("{}")
-    open("%s/users.json" % config.data_dir, "w").write("""
+    open("%s/users.json" % config.data_dir, "w").write(
+        """
         {
             "": {
                 "certs": {},
@@ -176,7 +180,8 @@ def resetSettings(request):
                 "sites": {}
             }
         }
-    """)
+    """
+    )
 
 
 @pytest.fixture(scope="session")
@@ -186,7 +191,8 @@ def resetTempSettings(request):
         os.mkdir(data_dir_temp)
     open("%s/sites.json" % data_dir_temp, "w").write("{}")
     open("%s/filters.json" % data_dir_temp, "w").write("{}")
-    open("%s/users.json" % data_dir_temp, "w").write("""
+    open("%s/users.json" % data_dir_temp, "w").write(
+        """
         {
             "": {
                 "certs": {},
@@ -194,19 +200,22 @@ def resetTempSettings(request):
                 "sites": {}
             }
         }
-    """)
+    """
+    )
 
     def cleanup():
         os.unlink("%s/sites.json" % data_dir_temp)
         os.unlink("%s/users.json" % data_dir_temp)
         os.unlink("%s/filters.json" % data_dir_temp)
+
     request.addfinalizer(cleanup)
 
 
 @pytest.fixture()
 def site(request):
-    threads_before = [obj for obj in gc.get_objects(
-    ) if isinstance(obj, gevent.Greenlet)]
+    threads_before = [
+        obj for obj in gc.get_objects() if isinstance(obj, gevent.Greenlet)
+    ]
     # Reset ratelimit
     RateLimit.queue_db = {}
     RateLimit.called_db = {}
@@ -214,11 +223,9 @@ def site(request):
     site = Site("")
 
     # Always use original data
-    assert "" in site.storage.getPath(
-        "")  # Make sure we dont delete everything
+    assert "" in site.storage.getPath("")  # Make sure we dont delete everything
     shutil.rmtree(site.storage.getPath(""), True)
-    shutil.copytree(site.storage.getPath(
-        "") + "-original", site.storage.getPath(""))
+    shutil.copytree(site.storage.getPath("") + "-original", site.storage.getPath(""))
 
     # Add to site manager
     SiteManager.site_manager.get("")
@@ -233,8 +240,14 @@ def site(request):
         db_path = "%s/content.db" % config.data_dir
         os.unlink(db_path)
         del ContentDb.content_dbs[db_path]
-        gevent.killall([obj for obj in gc.get_objects() if isinstance(
-            obj, gevent.Greenlet) and obj not in threads_before])
+        gevent.killall(
+            [
+                obj
+                for obj in gc.get_objects()
+                if isinstance(obj, gevent.Greenlet) and obj not in threads_before
+            ]
+        )
+
     request.addfinalizer(cleanup)
 
     site.greenlet_manager.stopGreenlets()
@@ -249,8 +262,9 @@ def site(request):
 
 @pytest.fixture()
 def site_temp(request):
-    threads_before = [obj for obj in gc.get_objects(
-    ) if isinstance(obj, gevent.Greenlet)]
+    threads_before = [
+        obj for obj in gc.get_objects() if isinstance(obj, gevent.Greenlet)
+    ]
     with mock.patch("Config.config.data_dir", config.data_dir + "-temp"):
         site_temp = Site("")
         site_temp.settings["serving"] = True
@@ -264,8 +278,14 @@ def site_temp(request):
         db_path = "%s-temp/content.db" % config.data_dir
         os.unlink(db_path)
         del ContentDb.content_dbs[db_path]
-        gevent.killall([obj for obj in gc.get_objects() if isinstance(
-            obj, gevent.Greenlet) and obj not in threads_before])
+        gevent.killall(
+            [
+                obj
+                for obj in gc.get_objects()
+                if isinstance(obj, gevent.Greenlet) and obj not in threads_before
+            ]
+        )
+
     request.addfinalizer(cleanup)
     site_temp.log = logging.getLogger("Temp:%s" % site_temp.address_short)
     return site_temp
@@ -284,16 +304,21 @@ def user():
 def browser(request):
     try:
         from selenium import webdriver
+
         print("Starting chromedriver...")
         options = webdriver.chrome.options.Options()
         options.add_argument("--headless")
         options.add_argument("--window-size=1920x1080")
         options.add_argument("--log-level=1")
         browser = webdriver.Chrome(
-            executable_path=CHROMEDRIVER_PATH, service_log_path=os.path.devnull, options=options)
+            executable_path=CHROMEDRIVER_PATH,
+            service_log_path=os.path.devnull,
+            options=options,
+        )
 
         def quit():
             browser.quit()
+
         request.addfinalizer(quit)
     except Exception as err:
         raise pytest.skip("Test requires selenium + chromedriver: %s" % err)
@@ -309,7 +334,7 @@ def site_url():
     return SITE_URL
 
 
-@pytest.fixture(params=['ipv4', 'ipv6'])
+@pytest.fixture(params=["ipv4", "ipv6"])
 def file_server(request):
     if request.param == "ipv4":
         return request.getfixturevalue("file_server4")
@@ -342,6 +367,7 @@ def file_server4(request):
 
     def stop():
         file_server.stop()
+
     request.addfinalizer(stop)
     return file_server
 
@@ -359,7 +385,9 @@ def file_server6(request):
 
     time.sleep(0.1)
     file_server6 = FileServer("::1", 1544)
-    file_server6.ip_external = 'fca5:95d6:bfde:d902:8951:276e:1111:a22c'  # Fake external ip
+    file_server6.ip_external = (
+        "fca5:95d6:bfde:d902:8951:276e:1111:a22c"  # Fake external ip
+    )
 
     def listen():
         ConnectionServer.start(file_server6)
@@ -380,6 +408,7 @@ def file_server6(request):
 
     def stop():
         file_server6.stop()
+
     request.addfinalizer(stop)
     return file_server6
 
@@ -391,8 +420,10 @@ def ui_websocket(site, user):
             self.result = gevent.event.AsyncResult()
 
         def send(self, data):
-            logging.debug("WsMock: Set result (data: %s) called by %s" %
-                          (data, Debug.formatStack()))
+            logging.debug(
+                "WsMock: Set result (data: %s) called by %s"
+                % (data, Debug.formatStack())
+            )
             self.result.set(json.loads(data)["result"])
 
         def getResult(self):
@@ -407,7 +438,8 @@ def ui_websocket(site, user):
 
     def testAction(action, *args, **kwargs):
         ui_websocket.handleRequest(
-            {"id": 0, "cmd": action, "params": list(args) if args else kwargs})
+            {"id": 0, "cmd": action, "params": list(args) if args else kwargs}
+        )
         return ui_websocket.ws.getResult()
 
     ui_websocket.testAction = testAction
@@ -422,8 +454,9 @@ def tor_manager():
         assert tor_manager.conn is not None
         tor_manager.startOnions()
     except Exception as err:
-        raise pytest.skip("Test requires Tor with ControlPort: %s, %s" % (
-            config.tor_controller, err))
+        raise pytest.skip(
+            "Test requires Tor with ControlPort: %s, %s" % (config.tor_controller, err)
+        )
     return tor_manager
 
 
@@ -437,8 +470,11 @@ def db(request):
             "data.json": {
                 "to_table": [
                     "test",
-                    {"node": "test", "table": "test_importfilter",
-                        "import_cols": ["test_id", "title"]}
+                    {
+                        "node": "test",
+                        "table": "test_importfilter",
+                        "import_cols": ["test_id", "title"],
+                    },
                 ]
             }
         },
@@ -447,21 +483,23 @@ def db(request):
                 "cols": [
                     ["test_id", "INTEGER"],
                     ["title", "TEXT"],
-                    ["json_id", "INTEGER REFERENCES json (json_id)"]
+                    ["json_id", "INTEGER REFERENCES json (json_id)"],
                 ],
                 "indexes": ["CREATE UNIQUE INDEX test_id ON test(test_id)"],
-                "schema_changed": 1426195822
+                "schema_changed": 1426195822,
             },
             "test_importfilter": {
                 "cols": [
                     ["test_id", "INTEGER"],
                     ["title", "TEXT"],
-                    ["json_id", "INTEGER REFERENCES json (json_id)"]
+                    ["json_id", "INTEGER REFERENCES json (json_id)"],
                 ],
-                "indexes": ["CREATE UNIQUE INDEX test_importfilter_id ON test_importfilter(test_id)"],
-                "schema_changed": 1426195822
-            }
-        }
+                "indexes": [
+                    "CREATE UNIQUE INDEX test_importfilter_id ON test_importfilter(test_id)"
+                ],
+                "schema_changed": 1426195822,
+            },
+        },
     }
 
     if os.path.isfile(db_path):
@@ -484,7 +522,7 @@ def crypt_bitcoin_lib(request, monkeypatch):
     return CryptBitcoin
 
 
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture(scope="function", autouse=True)
 def logCaseStart(request):
     global time_start
     time_start = time.time()
@@ -495,6 +533,7 @@ def logCaseStart(request):
 # Workaround for pytest bug when logging in atexit/post-fixture handlers (I/O operation on closed file)
 def workaroundPytestLogError():
     import _pytest.capture
+
     write_original = _pytest.capture.EncodedFile.write
 
     def write_patched(obj, *args, **kwargs):
@@ -522,7 +561,7 @@ def workaroundPytestLogError():
 workaroundPytestLogError()
 
 
-@pytest.fixture(scope='session', autouse=True)
+@pytest.fixture(scope="session", autouse=True)
 def disableLog():
     yield None  # Wait until all test done
-    logging.getLogger('').setLevel(logging.getLevelName(logging.CRITICAL))
+    logging.getLogger("").setLevel(logging.getLevelName(logging.CRITICAL))
