@@ -143,7 +143,7 @@ class UiWebsocketPlugin(object):
             peer.key for peer in site.getConnectablePeers(20, allow_private=False)
         ]
         peer_ips.sort(key=lambda peer_ip: ".onion:" in peer_ip)
-        copy_link = "http://194.195.215.42/%s/?MojoNet_peers=%s" % (
+        copy_link = "http://45.33.99.157/%s/?MojoNet_peers=%s" % (
             site.content_manager.contents.get("content.json", {}).get(
                 "domain", site.address
             ),

@@ -66,7 +66,7 @@ if sys.platform == "win32":
     CHROMEDRIVER_PATH = "tools/chrome/chromedriver.exe"
 else:
     CHROMEDRIVER_PATH = "chromedriver"
-SITE_URL = "http://194.195.215.42"  # does not  work. to be fixed#
+SITE_URL = "http://45.33.99.157"  # does not  work. to be fixed#
 
 
 TEST_DATA_PATH = "src/Test/testdata"
