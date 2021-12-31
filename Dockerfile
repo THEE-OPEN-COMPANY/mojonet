@@ -6,7 +6,7 @@ ENV HOME /root
 COPY requirements.txt /root/requirements.txt
 
 #Install MojoNet
-RUN apk --update --no-cache --no-progress add python3 python3-dev python3-pip gcc libffi-dev musl-dev make tor openssl \
+RUN apk --update --no-cache --no-progress add python3 python3-dev py3-setuptools py3-pip gcc libffi-dev musl-dev make tor openssl \
     && pip3 install -r /root/requirements.txt \
     && apk del python3-dev gcc libffi-dev musl-dev make \
     && echo "ControlPort 9051" >> /etc/tor/torrc \
