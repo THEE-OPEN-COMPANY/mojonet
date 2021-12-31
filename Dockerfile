@@ -28,7 +28,7 @@ ENV ENABLE_TOR false
 WORKDIR /root
 
 #Set upstart command
-CMD (! ${ENABLE_TOR} || tor&) && python3 MojoNet.py --ui_ip 0.0.0.0 --fileserver_port 26552
+CMD (! ${ENABLE_TOR} || tor&) && python3 mojonet.py --ui_ip 0.0.0.0 --fileserver_port 26552
 
 #Expose ports
 EXPOSE 43110 26552
